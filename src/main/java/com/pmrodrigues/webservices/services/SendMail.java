@@ -77,7 +77,7 @@ public class SendMail {
     public void send() throws EmailException, IOException {
         MultiPartEmail email = new MultiPartEmail();
         email.setHostName(this.hostname);
-        email.setSmtpPort(this.port);
+        email.setSslSmtpPort(Long.toString(this.port));
         email.setAuthentication(this.username,this.password);
         email.setSSLOnConnect(this.ssl);
         email.setStartTLSEnabled(this.ssl);
