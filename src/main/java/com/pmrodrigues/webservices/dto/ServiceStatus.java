@@ -15,10 +15,10 @@ public class ServiceStatus implements Serializable {
     @XmlElement( name = "Status" , namespace = "http://services.pmrodrigues.biz/Pagamento/1.0")
     private Status status;
 
-    @XmlElement(name = "Data" , required = true, namespace = "http://services.pmrodrigues.biz/Pagamento/1.0")
+    @XmlElement(name = "Data" , required = true, namespace = "http://services.pmrodrigues.biz/Pagamento/1.0" )
     private Date data = new Date();
 
-    @XmlElement(name = "Data" , required = true, namespace = "http://services.pmrodrigues.biz/Pagamento/1.0")
+    @XmlElement(name = "Messagem" , required = true, namespace = "http://services.pmrodrigues.biz/Pagamento/1.0")
     private String message;
 
     public ServiceStatus() {}
