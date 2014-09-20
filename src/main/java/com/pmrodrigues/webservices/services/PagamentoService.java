@@ -25,7 +25,7 @@ public class PagamentoService {
     private void enviar(InputStream boleto, OrdemPagamento ordemPagamento) throws IOException, EmailException {
         new SendMail()
                 .setSmtpServer("smtp.gmail.com")
-                .setSmtpPort(567)
+                .setSmtpPort(587)
                 .needAutentication(true)
                 .useSSL(true)
                 .username("marsilvarodrigues@gmail.com")

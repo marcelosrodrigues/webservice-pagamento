@@ -87,7 +87,7 @@ public class SendMail {
         email.addTo(this.to);
 
         email.attach(new ByteArrayDataSource(this.boleto,"application/pdf"),"boleto.pdf","Boleto para pagamento");
-
+        email.setDebug(true);
         email.send();
     }
     public SendMail username(String username) {
