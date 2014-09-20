@@ -80,7 +80,7 @@ public class SendMail {
         email.setSmtpPort(this.port);
         email.setAuthentication(this.username,this.password);
         email.setSSLOnConnect(this.ssl);
-        email.setStartTLSRequired(true);
+        email.setStartTLSEnabled(this.ssl);
         email.setFrom(this.from);
         email.setSubject(this.subject);
         email.setMsg(this.message);
