@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -27,15 +29,15 @@ public class PagamentoWS implements Serializable {
 
     @WebMethod(action = "enviar", operationName = "enviar")
     public String enviarBoleto(@WebParam(name = "DataVencimento") String dataVencimento, @WebParam(name = "DataEmissao")String dataEmissao,
-                               @WebParam(name = "NumeroAgencia")Integer numeroAgencia, @WebParam(name = "DigitoAgencia")char digitoAgencia,
-                               @WebParam(name = "NumeroContaCorrente") Long numeroContaCorrente, @WebParam(name = "DigitoContaCorrente")char digitoContaCorrente,
-                               @WebParam(name = "NumeroBoleto")String numeroBoleto,@WebParam(name = "NossoNumero") Long nossoNumero,
+                               @WebParam(name = "NumeroAgencia")Integer numeroAgencia, @WebParam(name = "DigitoAgencia")String digitoAgencia,
+                               @WebParam(name = "NumeroContaCorrente") Long numeroContaCorrente, @WebParam(name = "DigitoContaCorrente")String digitoContaCorrente,
+                               @WebParam(name = "NumeroBoleto")String numeroBoleto,@WebParam(name = "NossoNumero") String nossoNumero,
                                @WebParam(name = "DigitoNossoNumero")String digitoNossoNumero, @WebParam(name = "Emissor") String nomeEmissor,
                                @WebParam(name = "SacadoCPF")String sacadoCPF, @WebParam(name = "NomeSacado")String nomeSacado,
                                @WebParam(name = "EnderecoSacado") String enderecoSacado, @WebParam(name = "BairroSacado") String bairroSacado,
                                @WebParam(name = "CEPSacado") String cepSacado, @WebParam(name = "CidadeSacado") String cidadeSacado,
                                @WebParam(name = "EstadoSacado") String estadoSacado, @WebParam(name = "EmailSacado")String emailSacado,
-                               @WebParam(name = "ValorBoleto") String valorBoleto, @WebParam(name = "Carteira") Integer carteira) throws Exception {
+                               @WebParam(name = "ValorBoleto") String valorBoleto, @WebParam(name = "Carteira") String carteira, @WebParam(name = "Instrucoes") String instrucoes) throws Exception {
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",new Locale("pt","BR"));
@@ -44,11 +46,11 @@ public class PagamentoWS implements Serializable {
 
         PagamentoService service = new PagamentoService();
         OrdemPagamento ordemPagamento = new OrdemPagamento(dateFormat.parse(dataVencimento), dateFormat.parse(dataEmissao),
-                                                            new Agencia(numeroAgencia,digitoAgencia),
-                                                            new ContaCorrente(numeroContaCorrente,digitoContaCorrente), numeroBoleto,
-                                                            new NossoNumero(nossoNumero,digitoNossoNumero),new Cedente(nomeEmissor),
+                                                            new Agencia(numeroAgencia,digitoAgencia.charAt(0)),
+                                                            new ContaCorrente(numeroContaCorrente,digitoContaCorrente.charAt(0)), numeroBoleto,
+                                                            new NossoNumero(Long.parseLong(nossoNumero),digitoNossoNumero),new Cedente(nomeEmissor),
                                                             new Pagador(sacadoCPF,nomeSacado ,new Endereco(enderecoSacado,bairroSacado,cepSacado,cidadeSacado,estadoSacado),emailSacado),
-                                                            new BigDecimal(decimalFormat.parse(valorBoleto).doubleValue()), carteira);
+                                                            new BigDecimal(decimalFormat.parse(valorBoleto).doubleValue()), Integer.parseInt(carteira), instrucoes);
 
         ordemPagamento = service.enviarBoleto(ordemPagamento);
 

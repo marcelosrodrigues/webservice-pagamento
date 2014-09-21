@@ -5,6 +5,7 @@ import com.pmrodrigues.webservices.enums.Status;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -13,6 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "ordempagamento")
 public class OrdemPagamento implements Serializable {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,10 +56,13 @@ public class OrdemPagamento implements Serializable {
     @Enumerated
     private Status status;
 
+    @Column
+    private String instrucoes;
+
     public OrdemPagamento() {
     }
 
-    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira) {
+    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira, String instrucoes) {
         this();
         this.dataVencimento = dataVencimento;
         this.dataEmissao = dataEmissao;
@@ -69,6 +74,7 @@ public class OrdemPagamento implements Serializable {
         this.pagador = pagador;
         this.valorBoleto = valorBoleto;
         this.carteira = carteira;
+        this.instrucoes = instrucoes;
     }
 
     public BigDecimal getValorBoleto() {
@@ -125,5 +131,9 @@ public class OrdemPagamento implements Serializable {
 
     public void setHistorico(String messagem) {
         this.historico = messagem;
+    }
+
+    public String getInstrucoes() {
+        return instrucoes;
     }
 }

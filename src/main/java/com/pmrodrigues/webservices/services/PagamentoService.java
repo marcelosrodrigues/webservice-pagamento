@@ -63,6 +63,9 @@ public class PagamentoService {
         Boleto boleto = criarBoleto(ordemPagamento, emissor, sacado, dataVencimento);
         boleto.comBanco(new Itau());
 
+        String[] instrucoes = ordemPagamento.getInstrucoes().split("#");
+        boleto.comInstrucoes(instrucoes);
+
         GeradorDeBoleto gerador = new GeradorDeBoleto(boleto);
         return new ByteArrayInputStream(gerador.geraPDF());
 
