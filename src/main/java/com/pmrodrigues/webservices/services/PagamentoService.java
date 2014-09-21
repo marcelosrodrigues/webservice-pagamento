@@ -85,7 +85,7 @@ public class PagamentoService {
         vencimento.setTime(ordemPagamento.getDataVencimento());
 
         Calendar emissao = Calendar.getInstance();
-        emissao.setTime(ordemPagamento.getDataVencimento());
+        emissao.setTime(ordemPagamento.getDataEmissao());
 
         Calendar processamento = Calendar.getInstance();
         processamento.setTime(ordemPagamento.getDataProcessamento());

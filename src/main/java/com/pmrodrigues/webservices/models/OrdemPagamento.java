@@ -144,4 +144,8 @@ public class OrdemPagamento implements Serializable {
     public Date getDataProcessamento() {
         return dataProcessamento;
     }
+
+    public Date getDataEmissao() {
+        return dataEmissao;
+    }
 }
