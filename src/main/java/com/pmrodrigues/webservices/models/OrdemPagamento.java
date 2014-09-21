@@ -3,8 +3,6 @@ package com.pmrodrigues.webservices.models;
 import com.pmrodrigues.webservices.enums.Status;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,7 +12,6 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "OrdemPagamento")
-@XmlRootElement(name = "Boleto" , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
 public class OrdemPagamento implements Serializable {
 
     @Id
@@ -22,43 +19,33 @@ public class OrdemPagamento implements Serializable {
     private Long id;
 
     @Column
-    @XmlElement(name = "DataVencimento" , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private Date dataVencimento;
 
     @Column
-    @XmlElement(name = "DataEmissao"  , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private Date dataEmissao;
 
     @Column
-    @XmlElement(name = "Agencia"  , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private Agencia agencia;
 
     @Column
-    @XmlElement(name = "ContaCorrente"  , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private ContaCorrente contaCorrente;
 
     @Column
-    @XmlElement(name = "NumeroBoleto"  , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String numeroDoDocumento;
 
     @Column
-    @XmlElement(name = "NossoNumero"  , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private NossoNumero nossoNumero;
 
-    @ManyToOne(optional = false,cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
-    @XmlElement(name = "Emissor"  , required = true, namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
+    @ManyToOne(optional = false, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Cedente cedente;
 
-    @ManyToOne(optional = false,cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
-    @XmlElement(name = "Destinatario"  , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
+    @ManyToOne(optional = false, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Pagador pagador;
 
     @Column
-    @XmlElement(name = "ValorBoleto"  , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private BigDecimal valorBoleto;
 
     @Column
-    @XmlElement(name = "Carteira" , required = true , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private Integer carteira;
 
     @Column
@@ -66,6 +53,23 @@ public class OrdemPagamento implements Serializable {
 
     @Enumerated
     private Status status;
+
+    public OrdemPagamento() {
+    }
+
+    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira) {
+        this();
+        this.dataVencimento = dataVencimento;
+        this.dataEmissao = dataEmissao;
+        this.agencia = agencia;
+        this.contaCorrente = contaCorrente;
+        this.numeroDoDocumento = numeroDoDocumento;
+        this.nossoNumero = nossoNumero;
+        this.cedente = cedente;
+        this.pagador = pagador;
+        this.valorBoleto = valorBoleto;
+        this.carteira = carteira;
+    }
 
     public BigDecimal getValorBoleto() {
         return valorBoleto;

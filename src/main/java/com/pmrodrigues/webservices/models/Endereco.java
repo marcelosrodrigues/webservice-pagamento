@@ -11,28 +11,33 @@ import java.io.Serializable;
  */
 
 @Embeddable
-@XmlRootElement(name="Endereco" , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
 public class Endereco implements Serializable {
 
     @Column
-    @XmlElement(name="Rua" , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String logradouro;
 
     @Column
-    @XmlElement(name="Bairro" , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String bairro;
 
     @Column
-    @XmlElement(name="CEP" , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String cep;
 
     @Column
-    @XmlElement(name="Cidade" , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String cidade;
 
     @Column
-    @XmlElement(name="Estado" , namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String uf;
+
+    public Endereco(String logradouro, String bairro, String cep, String cidade, String uf) {
+        this();
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.uf = uf;
+    }
+
+    public Endereco() {}
 
     public String getLogradouro() {
         return logradouro;

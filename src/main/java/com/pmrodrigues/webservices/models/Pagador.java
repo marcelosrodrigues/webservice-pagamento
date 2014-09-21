@@ -10,7 +10,6 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name= "Pagador")
-@XmlRootElement(name="Destinatario", namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
 public class Pagador implements Serializable{
 
     @Id
@@ -18,20 +17,26 @@ public class Pagador implements Serializable{
     private Long id;
 
     @Column(unique = true)
-    @XmlElement(name="CPF" , required = true, namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String cpf;
 
     @Column
-    @XmlElement(name="Nome" , required = true, namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String nome;
 
     @Column
-    @XmlElement(name="Endereco" , required = true, namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private Endereco endereco;
 
     @Column
-    @XmlElement(name="Email" , required = true, namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String email;
+
+    public Pagador(String cpf, String nome, Endereco endereco, String email) {
+        this();
+        this.cpf = cpf;
+        this.nome = nome;
+        this.endereco = endereco;
+        this.email = email;
+    }
+
+    public Pagador() {}
 
     public String getCPF() {
         return cpf;

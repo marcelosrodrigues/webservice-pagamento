@@ -10,7 +10,6 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "Cedente")
-@XmlRootElement(name="Emissor", namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
 public class Cedente implements Serializable {
 
     @Id
@@ -18,8 +17,14 @@ public class Cedente implements Serializable {
     private Long id;
 
     @Column
-    @XmlElement(name="Nome" , required = true, namespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0")
     private String nome;
+
+    public Cedente(String nome) {
+        this();
+        this.nome = nome;
+    }
+
+    public Cedente() {}
 
     public String getNome() {
         return nome;
