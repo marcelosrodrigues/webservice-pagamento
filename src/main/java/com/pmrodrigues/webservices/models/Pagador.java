@@ -22,7 +22,7 @@ public class Pagador implements Serializable{
     @Column
     private String nome;
 
-    @Column
+    @Embedded
     private Endereco endereco;
 
     @Column

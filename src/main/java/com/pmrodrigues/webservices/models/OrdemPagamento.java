@@ -24,16 +24,16 @@ public class OrdemPagamento implements Serializable {
     @Column
     private Date dataEmissao;
 
-    @Column
+    @Embedded
     private Agencia agencia;
 
-    @Column
+    @Embedded
     private ContaCorrente contaCorrente;
 
     @Column
     private String numeroDoDocumento;
 
-    @Column
+    @Embedded
     private NossoNumero nossoNumero;
 
     @ManyToOne(optional = false, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
