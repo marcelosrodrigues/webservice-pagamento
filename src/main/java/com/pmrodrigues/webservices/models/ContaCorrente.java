@@ -11,10 +11,10 @@ import java.io.Serializable;
 @Embeddable
 public class ContaCorrente implements Serializable {
 
-    @Column
+    @Column(name = "numeroContaCorrente")
     private Long numero;
 
-    @Column
+    @Column(name = "digitoContaCorrente")
     private char digito;
 
     public ContaCorrente(Long numero, char digito) {

@@ -12,10 +12,10 @@ import java.io.Serializable;
 @Embeddable
 public class Agencia implements Serializable{
 
-    @Column
+    @Column(name = "numeroAgencia")
     private Integer numero;
 
-    @Column
+    @Column(name = "digitoAgencia")
     private char digito;
 
     public Agencia() {}

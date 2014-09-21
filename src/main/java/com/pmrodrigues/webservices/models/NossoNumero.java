@@ -12,10 +12,10 @@ import java.io.Serializable;
 @Embeddable
 public class NossoNumero implements Serializable {
 
-    @Column
+    @Column(name = "nossoNumero")
     private Long numero;
 
-    @Column
+    @Column(name = "digitoNossoNumero")
     private String digito;
 
     public NossoNumero(Long numero, String digito) {

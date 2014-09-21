@@ -24,19 +24,16 @@ public class OrdemPagamento implements Serializable {
     @Column
     private Date dataEmissao;
 
-    @Embedded( { @AttributeOverride(name = "digito" , column = "digito_agencia") ,
-            @AttributeOverride(name = "numero" , column = "numero_agencia")} )
+    @Embedded
     private Agencia agencia;
 
-    @Embedded( { @AttributeOverride(name = "digito" , column = "digito_contacorrente") ,
-                 @AttributeOverride(name = "numero" , column = "numero_contacorrente")} )
+    @Embedded
     private ContaCorrente contaCorrente;
 
     @Column
     private String numeroDoDocumento;
 
-    @Embedded( { @AttributeOverride(name = "digito" , column = "digito_nossonumero") ,
-            @AttributeOverride(name = "numero" , column = "nossonumero")} )
+    @Embedded
     private NossoNumero nossoNumero;
 
     @ManyToOne(optional = false, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
@@ -102,6 +99,10 @@ public class OrdemPagamento implements Serializable {
         return pagador;
     }
 
+    public void setPagador(Pagador pagador) {
+        this.pagador = pagador;
+    }
+
     public Date getDataVencimento() {
         return dataVencimento;
     }
@@ -110,23 +111,19 @@ public class OrdemPagamento implements Serializable {
         return cedente;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public void setHistorico(String messagem) {
-        this.historico = messagem;
-    }
-
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getHistorico() {
         return historico;
     }
 
-    public void setPagador(Pagador pagador) {
-        this.pagador = pagador;
+    public void setHistorico(String messagem) {
+        this.historico = messagem;
     }
 }
