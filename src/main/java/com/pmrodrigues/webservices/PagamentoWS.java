@@ -20,13 +20,12 @@ import java.io.Serializable;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 public class PagamentoWS implements Serializable {
 
-    @WebMethod(action = "enviarRequest" , operationName = "enviar")
+    @WebMethod(action = "enviar" , operationName = "enviar")
     public ServiceStatus enviarBoleto(@WebParam(name = "Boleto", mode = WebParam.Mode.IN, targetNamespace = "http://schemata.pmrodrigues.biz/Pagamento/1.0") OrdemPagamento ordemPagamento) throws IOException, EmailException {
         PagamentoService service = new PagamentoService();
         OrdemPagamento ordemPagamentoProcessado = service.enviarBoleto(ordemPagamento);
 
         return new ServiceStatus(ordemPagamento.getStatus() , ordemPagamento.getHistorico());
-
     }
 
 }
