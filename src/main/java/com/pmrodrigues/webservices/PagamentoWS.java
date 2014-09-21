@@ -29,8 +29,8 @@ public class PagamentoWS implements Serializable {
 
     @WebMethod(action = "enviar", operationName = "enviar")
     public String enviarBoleto(@WebParam(name = "DataVencimento") String dataVencimento, @WebParam(name = "DataEmissao")String dataEmissao,
-                               @WebParam(name = "NumeroAgencia")Integer numeroAgencia, @WebParam(name = "DigitoAgencia")String digitoAgencia,
-                               @WebParam(name = "NumeroContaCorrente") Long numeroContaCorrente, @WebParam(name = "DigitoContaCorrente")String digitoContaCorrente,
+                               @WebParam(name = "NumeroAgencia")String numeroAgencia, @WebParam(name = "DigitoAgencia")String digitoAgencia,
+                               @WebParam(name = "NumeroContaCorrente") String numeroContaCorrente, @WebParam(name = "DigitoContaCorrente")String digitoContaCorrente,
                                @WebParam(name = "NumeroBoleto")String numeroBoleto,@WebParam(name = "NossoNumero") String nossoNumero,
                                @WebParam(name = "DigitoNossoNumero")String digitoNossoNumero, @WebParam(name = "Emissor") String nomeEmissor,
                                @WebParam(name = "SacadoCPF")String sacadoCPF, @WebParam(name = "NomeSacado")String nomeSacado,
@@ -47,8 +47,8 @@ public class PagamentoWS implements Serializable {
 
         PagamentoService service = new PagamentoService();
         OrdemPagamento ordemPagamento = new OrdemPagamento(dateFormat.parse(dataVencimento), dateFormat.parse(dataEmissao),dateFormat.parse(dataProcessamento),
-                                                            new Agencia(numeroAgencia,digitoAgencia.charAt(0)),
-                                                            new ContaCorrente(numeroContaCorrente,digitoContaCorrente.charAt(0)), numeroBoleto,
+                                                            new Agencia(Integer.parseInt(numeroAgencia),digitoAgencia.charAt(0)),
+                                                            new ContaCorrente(Long.parseLong(numeroContaCorrente),digitoContaCorrente.charAt(0)), numeroBoleto,
                                                             new NossoNumero(Long.parseLong(nossoNumero),digitoNossoNumero),new Cedente(nomeEmissor),
                                                             new Pagador(sacadoCPF,nomeSacado ,new Endereco(enderecoSacado,bairroSacado,cepSacado,cidadeSacado,estadoSacado),emailSacado),
                                                             new BigDecimal(decimalFormat.parse(valorBoleto).doubleValue()), Integer.parseInt(carteira), instrucoes);
