@@ -16,11 +16,11 @@ public class Agencia implements Serializable{
     private Integer numero;
 
     @Column(name = "digitoAgencia")
-    private char digito;
+    private String digito;
 
     public Agencia() {}
 
-    public Agencia(Integer numero, char digito) {
+    public Agencia(Integer numero, String digito) {
         this();
         this.numero = numero;
         this.digito = digito;
@@ -31,7 +31,11 @@ public class Agencia implements Serializable{
     }
 
     public char getDigito() {
-        return digito;
+        if( !"".equalsIgnoreCase(digito) && digito !=null ) {
+            return digito.charAt(0);
+        } else {
+            return ' ';
+        }
     }
 
 

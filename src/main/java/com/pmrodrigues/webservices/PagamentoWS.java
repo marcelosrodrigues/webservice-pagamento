@@ -47,8 +47,8 @@ public class PagamentoWS implements Serializable {
 
         PagamentoService service = new PagamentoService();
         OrdemPagamento ordemPagamento = new OrdemPagamento(dateFormat.parse(dataVencimento), dateFormat.parse(dataEmissao),dateFormat.parse(dataProcessamento),
-                                                            new Agencia(Integer.parseInt(numeroAgencia),digitoAgencia.charAt(0)),
-                                                            new ContaCorrente(Long.parseLong(numeroContaCorrente),digitoContaCorrente.charAt(0)), numeroBoleto,
+                                                            new Agencia(Integer.parseInt(numeroAgencia),digitoAgencia),
+                                                            new ContaCorrente(Long.parseLong(numeroContaCorrente),digitoContaCorrente), numeroBoleto,
                                                             new NossoNumero(Long.parseLong(nossoNumero),digitoNossoNumero),new Cedente(nomeEmissor),
                                                             new Pagador(sacadoCPF,nomeSacado ,new Endereco(enderecoSacado,bairroSacado,cepSacado,cidadeSacado,estadoSacado),emailSacado),
                                                             new BigDecimal(decimalFormat.parse(valorBoleto).doubleValue()), Integer.parseInt(carteira), instrucoes);

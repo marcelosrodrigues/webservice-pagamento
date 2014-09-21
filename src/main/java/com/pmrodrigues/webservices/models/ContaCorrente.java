@@ -15,9 +15,9 @@ public class ContaCorrente implements Serializable {
     private Long numero;
 
     @Column(name = "digitoContaCorrente")
-    private char digito;
+    private String digito;
 
-    public ContaCorrente(Long numero, char digito) {
+    public ContaCorrente(Long numero, String digito) {
         this();
         this.numero = numero;
         this.digito = digito;
@@ -30,6 +30,10 @@ public class ContaCorrente implements Serializable {
     }
 
     public char getDigito() {
-        return digito;
+        if( !"".equalsIgnoreCase(digito) && digito !=null ) {
+            return digito.charAt(0);
+        } else {
+            return ' ';
+        }
     }
 }
