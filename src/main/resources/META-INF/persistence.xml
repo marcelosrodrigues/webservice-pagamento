@@ -12,8 +12,8 @@
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
             <property name="hibernate.archive.autodetection" value="class"/>
-            <property name="hibernate.show_sql" value="false" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="drop-create" />
         </properties>
     </persistence-unit>
 </persistence>
