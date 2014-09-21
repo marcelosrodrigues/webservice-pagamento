@@ -18,7 +18,7 @@ import java.util.Date;
  * Created by Marceloo on 19/09/2014.
  */
 @WebService(name = "Pagamento", portName = "Pagamento", targetNamespace = "http://services.pmrodrigues.biz/Pagamento/1.0")
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public class PagamentoWS implements Serializable {
 
     @WebMethod(action = "enviar", operationName = "enviar")
@@ -40,6 +40,9 @@ public class PagamentoWS implements Serializable {
                                                             new NossoNumero(nossoNumero,digitoNossoNumero),new Cedente(nomeEmissor),
                                                             new Pagador(sacadoCPF,nomeSacado ,new Endereco(enderecoSacado,bairroSacado,cepSacado,cidadeSacado,estadoSacado),emailSacado),
                                                             valorBoleto, carteira);
+
+        ordemPagamento = service.enviarBoleto(ordemPagamento);
+
 
         return ordemPagamento.getStatus().toString();
     }
