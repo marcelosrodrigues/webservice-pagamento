@@ -1,7 +1,8 @@
 package com.pmrodrigues.webservices.dto;
 
+import com.pmrodrigues.webservices.enums.Status;
+
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;

@@ -3,8 +3,9 @@ package com.pmrodrigues.webservices.services;
 import br.com.caelum.stella.boleto.*;
 import br.com.caelum.stella.boleto.bancos.Itau;
 import br.com.caelum.stella.boleto.transformer.GeradorDeBoleto;
+import com.pmrodrigues.webservices.enums.Status;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
-import com.sun.xml.messaging.saaj.util.ByteInputStream;
+import com.pmrodrigues.webservices.repositories.OrdemPagamentoRepository;
 import org.apache.commons.mail.EmailException;
 
 import java.io.ByteArrayInputStream;
@@ -17,9 +18,24 @@ import java.util.Calendar;
  */
 public class PagamentoService {
 
-    public void enviarBoleto(OrdemPagamento ordemPagamento) throws IOException, EmailException {
-        InputStream boleto = gerarBoleto(ordemPagamento);
-        enviar(boleto,ordemPagamento);
+    public OrdemPagamento enviarBoleto(OrdemPagamento ordemPagamento)  {
+        try {
+            InputStream boleto = gerarBoleto(ordemPagamento);
+            enviar(boleto,ordemPagamento);
+            ordemPagamento.setStatus(Status.SUCESSO);
+            ordemPagamento.setHistorico("Boleto enviado com sucesso");
+        } catch (IOException e) {
+            ordemPagamento.setStatus(Status.ERRO);
+            ordemPagamento.setHistorico(e.getMessage());
+        } catch (EmailException e) {
+            ordemPagamento.setStatus(Status.ERRO);
+            ordemPagamento.setHistorico(e.getMessage());
+        }
+
+        OrdemPagamentoRepository repository = new OrdemPagamentoRepository();
+        repository.add(ordemPagamento);
+
+        return ordemPagamento;
     }
 
     private void enviar(InputStream boleto, OrdemPagamento ordemPagamento) throws IOException, EmailException {
