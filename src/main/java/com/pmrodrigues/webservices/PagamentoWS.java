@@ -6,6 +6,7 @@ import com.pmrodrigues.webservices.services.PagamentoService;
 import org.apache.commons.mail.EmailException;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
@@ -21,12 +22,16 @@ import java.util.Date;
 public class PagamentoWS implements Serializable {
 
     @WebMethod(action = "enviar", operationName = "enviar")
-    public String enviarBoleto(Date dataVencimento, Date dataEmissao, Integer numeroAgencia, char digitoAgencia,
-                                      Long numeroContaCorrente, char digitoContaCorrente, String numeroBoleto,
-                                      Long nossoNumero, String digitoNossoNumero, String nomeEmissor,
-                                      String sacadoCPF, String nomeSacado, String enderecoSacado, String bairroSacado,
-                                      String cepSacado, String cidadeSacado, String estadoSacado, String emailSacado,
-                                      BigDecimal valorBoleto, Integer carteira) throws IOException, EmailException {
+    public String enviarBoleto(@WebParam(name = "DataVencimento") Date dataVencimento, @WebParam(name = "DataEmissao")Date dataEmissao,
+                               @WebParam(name = "NumeroAgencia")Integer numeroAgencia, @WebParam(name = "DigitoAgencia")char digitoAgencia,
+                               @WebParam(name = "NumeroContaCorrente") Long numeroContaCorrente, @WebParam(name = "DigitoContaCorrente")char digitoContaCorrente,
+                               @WebParam(name = "NumeroBoleto")String numeroBoleto,@WebParam(name = "NossoNumero") Long nossoNumero,
+                               @WebParam(name = "DigitoNossoNumero")String digitoNossoNumero, @WebParam(name = "Emissor") String nomeEmissor,
+                               @WebParam(name = "SacadoCPF")String sacadoCPF, @WebParam(name = "NomeSacado")String nomeSacado,
+                               @WebParam(name = "EnderecoSacado") String enderecoSacado, @WebParam(name = "BairroSacado") String bairroSacado,
+                               @WebParam(name = "CEPSacado") String cepSacado, @WebParam(name = "CidadeSacado") String cidadeSacado,
+                               @WebParam(name = "EstadoSacado") String estadoSacado, @WebParam(name = "EmailSacado")String emailSacado,
+                               @WebParam(name = "ValorBoleto") BigDecimal valorBoleto, @WebParam(name = "Carteira") Integer carteira) throws IOException, EmailException {
 
         PagamentoService service = new PagamentoService();
         OrdemPagamento ordemPagamento = new OrdemPagamento(dataVencimento, dataEmissao,
