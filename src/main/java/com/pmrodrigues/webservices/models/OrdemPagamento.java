@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by Marceloo on 19/09/2014.
  */
 @Entity
-@Table(name = "OrdemPagamento")
+@Table(name = "ordempagamento")
 public class OrdemPagamento implements Serializable {
 
     @Id
