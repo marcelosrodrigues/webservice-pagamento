@@ -24,16 +24,19 @@ public class OrdemPagamento implements Serializable {
     @Column
     private Date dataEmissao;
 
-    @Embedded
+    @Embedded( { @AttributeOverride(name = "digito" , column = "digito_agencia") ,
+            @AttributeOverride(name = "numero" , column = "numero_agencia")} )
     private Agencia agencia;
 
-    @Embedded
+    @Embedded( { @AttributeOverride(name = "digito" , column = "digito_contacorrente") ,
+                 @AttributeOverride(name = "numero" , column = "numero_contacorrente")} )
     private ContaCorrente contaCorrente;
 
     @Column
     private String numeroDoDocumento;
 
-    @Embedded
+    @Embedded( { @AttributeOverride(name = "digito" , column = "digito_nossonumero") ,
+            @AttributeOverride(name = "numero" , column = "nossonumero")} )
     private NossoNumero nossoNumero;
 
     @ManyToOne(optional = false, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
