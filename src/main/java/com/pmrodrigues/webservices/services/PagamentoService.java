@@ -87,9 +87,13 @@ public class PagamentoService {
         Calendar emissao = Calendar.getInstance();
         emissao.setTime(ordemPagamento.getDataVencimento());
 
+        Calendar processamento = Calendar.getInstance();
+        processamento.setTime(ordemPagamento.getDataProcessamento());
+
         return Datas.novasDatas()
-                                    .comVencimento(vencimento)
-                                    .comDocumento(emissao);
+                    .comVencimento(vencimento)
+                    .comDocumento(emissao)
+                    .comProcessamento(processamento);
     }
 
     private Sacado criarPagador(OrdemPagamento ordemPagamento) {

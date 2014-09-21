@@ -59,11 +59,15 @@ public class OrdemPagamento implements Serializable {
     @Column
     private String instrucoes;
 
+    @Column
+    private Date dataProcessamento;
+
     public OrdemPagamento() {
     }
 
-    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira, String instrucoes) {
+    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Date dataProcessamento, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira, String instrucoes) {
         this();
+        this.dataProcessamento = dataProcessamento;
         this.dataVencimento = dataVencimento;
         this.dataEmissao = dataEmissao;
         this.agencia = agencia;
@@ -135,5 +139,9 @@ public class OrdemPagamento implements Serializable {
 
     public String getInstrucoes() {
         return instrucoes;
+    }
+
+    public Date getDataProcessamento() {
+        return dataProcessamento;
     }
 }
