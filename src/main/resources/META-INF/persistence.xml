@@ -8,7 +8,7 @@
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-54-225-239-184.compute-1.amazonaws.com:5432/dho9kqqt96jo" />
             <property name="javax.persistence.jdbc.user" value="encjikhknuweoe" />
-            <property name="javax.persistence.jdbc.password" value="YO5RHDyBhQ3FaSO9sfmV" />
+            <property name="javax.persistence.jdbc.password" value="0fDcd-YO5RHDyBhQ3FaSO9sfmV" />
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
             <property name="hibernate.archive.autodetection" value="class"/>
