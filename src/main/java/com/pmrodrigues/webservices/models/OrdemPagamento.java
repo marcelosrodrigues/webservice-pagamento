@@ -17,7 +17,7 @@ public class OrdemPagamento implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -147,5 +147,9 @@ public class OrdemPagamento implements Serializable {
 
     public Date getDataEmissao() {
         return dataEmissao;
+    }
+
+    public void setCedente(Cedente cedente) {
+        this.cedente = cedente;
     }
 }

@@ -4,11 +4,18 @@ import com.pmrodrigues.webservices.dto.ServiceStatus;
 import com.pmrodrigues.webservices.models.*;
 import com.pmrodrigues.webservices.services.PagamentoService;
 import org.apache.commons.mail.EmailException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.annotation.Resource;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.ServletContext;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,7 +32,12 @@ import java.util.Locale;
  */
 @WebService(name = "Pagamento", portName = "Pagamento", targetNamespace = "http://services.pmrodrigues.biz/Pagamento/1.0")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
+@Service
 public class PagamentoWS implements Serializable {
+
+    @Resource
+    private WebServiceContext context;
+
 
     @WebMethod(action = "enviar", operationName = "enviar")
     public String enviarBoleto(@WebParam(name = "DataVencimento") String dataVencimento, @WebParam(name = "DataEmissao")String dataEmissao,
@@ -45,13 +57,15 @@ public class PagamentoWS implements Serializable {
         DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(new Locale("pt","BR"));
         decimalFormat.applyPattern("#,##");
 
-        PagamentoService service = new PagamentoService();
         OrdemPagamento ordemPagamento = new OrdemPagamento(dateFormat.parse(dataVencimento), dateFormat.parse(dataEmissao),dateFormat.parse(dataProcessamento),
                                                             new Agencia(Integer.parseInt(numeroAgencia),digitoAgencia),
                                                             new ContaCorrente(Long.parseLong(numeroContaCorrente),digitoContaCorrente), numeroBoleto,
                                                             new NossoNumero(Long.parseLong(nossoNumero),digitoNossoNumero),new Cedente(nomeEmissor),
                                                             new Pagador(sacadoCPF,nomeSacado ,new Endereco(enderecoSacado,bairroSacado,cepSacado,cidadeSacado,estadoSacado),emailSacado),
                                                             new BigDecimal(decimalFormat.parse(valorBoleto).doubleValue()), Integer.parseInt(carteira), instrucoes);
+        ServletContext context =
+                (ServletContext) this.context.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
+        PagamentoService service = (PagamentoService) WebApplicationContextUtils.getWebApplicationContext(context).getBean("pagamentoService");
 
         ordemPagamento = service.enviarBoleto(ordemPagamento);
 

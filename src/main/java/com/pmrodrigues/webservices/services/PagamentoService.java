@@ -6,8 +6,15 @@ import br.com.caelum.stella.boleto.transformer.GeradorDeBoleto;
 import com.pmrodrigues.webservices.enums.Status;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
 import com.pmrodrigues.webservices.repositories.OrdemPagamentoRepository;
+import com.pmrodrigues.webservices.repositories.impl.OrdemPagamentoRepositoryImpl;
 import org.apache.commons.mail.EmailException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +23,13 @@ import java.util.Calendar;
 /**
  * Created by Marceloo on 19/09/2014.
  */
+@Service
 public class PagamentoService {
+
+    private SendMail email = new SendMail();
+
+    @Resource(name = "OrdemPagamentoRepository")
+    private OrdemPagamentoRepository repository;
 
     public OrdemPagamento enviarBoleto(OrdemPagamento ordemPagamento)  {
         try {
@@ -30,28 +43,23 @@ public class PagamentoService {
         } catch (EmailException e) {
             ordemPagamento.setStatus(Status.ERRO);
             ordemPagamento.setHistorico(e.getMessage());
+        } catch (MessagingException e) {
+            ordemPagamento.setStatus(Status.ERRO);
+            ordemPagamento.setHistorico(e.getMessage());
         }
 
-        OrdemPagamentoRepository repository = new OrdemPagamentoRepository();
         repository.add(ordemPagamento);
 
         return ordemPagamento;
     }
 
-    private void enviar(InputStream boleto, OrdemPagamento ordemPagamento) throws IOException, EmailException {
-        new SendMail()
-                .setSmtpServer("smtp.gmail.com")
-                .setSmtpPort(465)
-                .needAutentication(true)
-                .useSSL(true)
-                .username("marsilvarodrigues@gmail.com")
-                .password("powerslave")
-                .from("marsilvarodrigues@gmail.com")
-                .to(ordemPagamento.getPagador().getEmail())
-                .subject("Segue anexo seu boleto para pagamento")
-                .message("Segue anexo seu boleto para pagamento")
-                .attachament(boleto)
-                .send();
+    private void enviar(InputStream boleto, OrdemPagamento ordemPagamento) throws IOException, EmailException, MessagingException {
+        email.from("qualivida@qualividabeneficios.com.br")
+             .to(ordemPagamento.getPagador().getEmail())
+             .subject("Segue anexo seu boleto para pagamento")
+             .message("Segue anexo seu boleto para pagamento")
+             .attachament(boleto)
+             .send();
     }
 
     private InputStream gerarBoleto(OrdemPagamento ordemPagamento) {
