@@ -21,4 +21,12 @@ public class PagadorRepositoryImpl extends AbstractRepository<Pagador> implement
 
     }
 
+    @Override
+    public Pagador findByEmail(String email) {
+        Session session = super.getSession();
+        return (Pagador) session.createCriteria(Pagador.class)
+                      .add(Restrictions.eq("email",email))
+                      .uniqueResult();
+    }
+
 }

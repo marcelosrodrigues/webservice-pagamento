@@ -32,17 +32,6 @@
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
-    <filter>
-        <filter-name>vraptor</filter-name>
-        <filter-class>br.com.caelum.vraptor.VRaptor</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>vraptor</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
 
     <filter>
         <filter-name>OpenSessionInViewFilter</filter-name>
@@ -61,11 +50,20 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>vraptor</filter-name>
+        <filter-class>br.com.caelum.vraptor.VRaptor</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>vraptor</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
     </listener>
 
     <session-config>

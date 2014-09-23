@@ -52,7 +52,7 @@ public class SendMail {
         MultiPartEmail email = new MultiPartEmail();
         email.setHostName("smtp.gmail.com");
         email.setSslSmtpPort("465");
-        email.setAuthentication("marsilvarodrigues@gmail.com","powerslave");
+        email.setAuthentication("marsilvarodrigues@gmail.com", "powerslave");
         email.setSSLOnConnect(true);
         email.setStartTLSEnabled(true);
         email.setFrom(this.from);
@@ -61,7 +61,10 @@ public class SendMail {
         email.setDebug(true);
         email.addTo(this.to);
 
-        email.attach(new ByteArrayDataSource(this.boleto, "application/pdf"), "boleto.pdf", "Boleto para pagamento");
+        if (this.boleto != null){
+            email.attach(new ByteArrayDataSource(this.boleto, "application/pdf"), "boleto.pdf", "Boleto para pagamento");
+        }
+
         email.setDebug(true);
         email.send();
     }

@@ -7,4 +7,6 @@ import com.pmrodrigues.webservices.models.Pagador;
  */
 public interface PagadorRepository extends Repository<Pagador>{
     Pagador getPagadorByCPF(String cpf);
+
+    Pagador findByEmail(String email);
 }

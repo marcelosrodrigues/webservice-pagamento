@@ -1,15 +1,24 @@
 package com.pmrodrigues.webservices.models;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.math.RandomUtils;
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+
+import static org.apache.commons.lang.RandomStringUtils.*;
 
 /**
  * Created by Marceloo on 19/09/2014.
  */
 @Entity
 @Table(name= "pagador")
+@org.hibernate.annotations.Entity(dynamicUpdate = true)
 public class Pagador implements Serializable{
 
     @Id
@@ -27,6 +36,9 @@ public class Pagador implements Serializable{
 
     @Column
     private String email;
+
+    @Column
+    private String password;
 
     public Pagador(String cpf, String nome, Endereco endereco, String email) {
         this();
@@ -64,5 +76,14 @@ public class Pagador implements Serializable{
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String reemitirSenha() {
+        this.password = randomAlphanumeric(8);
+        return this.password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
