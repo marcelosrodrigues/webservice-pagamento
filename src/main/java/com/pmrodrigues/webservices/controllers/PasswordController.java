@@ -38,6 +38,9 @@ public class PasswordController {
                 result.include("message","Sua senha foi enviada para o seu email de cadastro. Obrigado!");
                 result.forwardTo(LoginController.class).login();
 
+            } else {
+                result.include("message","CPF é obrigatório");
+                result.forwardTo(PasswordController.class).reemitir();
             }
         } catch (Exception e) {
             logger.error(e.getMessage());

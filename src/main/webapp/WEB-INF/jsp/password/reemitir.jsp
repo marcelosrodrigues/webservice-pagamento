@@ -5,13 +5,17 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="<c:url value='/style/main.css' /> "/>
 </head>
 <body>
 
 <form action="<c:url value='/reemitir.do' />" method="post">
     <c:out value="${message}" />
-    <label for="cpf">CPF:</label>
+    <section><div>
+    <label for="cpf">CPF</label>
     <input type="text" id="cpf" name="cpf" />
+    </div></section>
+    <br>
     <button type="submit">Reemitir</button>
 </form>
 </body>

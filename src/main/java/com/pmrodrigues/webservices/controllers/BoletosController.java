@@ -30,12 +30,17 @@ public class BoletosController {
         this.userSession = userSession;
         this.pagamentoService = pagamentoService;
     }
-    public void listar() {}
 
     @Get
     @Path("/boletos.do")
-    public void listar(String c) {
-        List<OrdemPagamento> boletos = service.listAllBoletosByCPF(c);
+    public void listar() {
+        List<OrdemPagamento> boletos = service.listAllBoletosByPagador(userSession.getPagador());
+        result.include("boletos",boletos);
+    }
+
+
+    public void listar(String cpf) {
+        List<OrdemPagamento> boletos = service.listAllBoletosByCPF(cpf);
         result.include("boletos",boletos);
     }
 
@@ -47,6 +52,6 @@ public class BoletosController {
         boleto.emitirSegundaVia();
         pagamentoService.enviarBoleto(boleto);
         result.include("message","Boleto reenviado com sucesso");
-        result.forwardTo(BoletosController.class).listar(boleto.getPagador().getCPF());
+        result.forwardTo(BoletosController.class).listar();
     }
 }

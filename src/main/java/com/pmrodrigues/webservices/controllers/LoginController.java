@@ -35,10 +35,29 @@ public class LoginController {
     public void doLogin(final String email , final String password ){
 
         try {
-            Pagador pagador = service.autenticate(email,password);
-            result.include(pagador);
-            userSession.setPagador(pagador);
-            result.forwardTo(BoletosController.class).listar();
+
+            boolean error = false;
+            String message = "";
+            if( email == null || "".equalsIgnoreCase(email) ){
+                error = true;
+                message = "E-mail é obrigatório\r\n";
+            }
+
+            if(password == null || "".equalsIgnoreCase(password) ){
+                error = true;
+                message = "Senha é obrigatório";
+            }
+
+
+            if( !error ) {
+                Pagador pagador = service.autenticate(email, password);
+                result.include(pagador);
+                userSession.setPagador(pagador);
+                result.forwardTo(BoletosController.class).listar();
+            } else {
+                result.include("message","<ul>" + message + "</ul>");
+                result.forwardTo(LoginController.class).login();
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
             result.include("message",e.getMessage());

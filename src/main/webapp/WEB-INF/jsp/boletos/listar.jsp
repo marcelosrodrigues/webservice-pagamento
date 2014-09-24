@@ -5,38 +5,7 @@
 <html>
 <head>
     <title></title>
-
-    <style>
-        * {
-            font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
-            font-size: 12px;
-            color: #333333;
-        }
-        table {
-            display: table;
-            border-collapse: separate;
-            border-spacing: 2px;
-            border-color: gray;
-            text-align: center;
-            width: 90%;
-        }
-        table thead {
-            background: #e5e5e5;
-        }
-        A:visited {
-            COLOR: #666666;
-            TEXT-DECORATION: none;
-        }
-        A:link {
-            COLOR: #666666;
-            TEXT-DECORATION: none;
-        }
-        a:webkit-any-link {
-            color: -webkit-link;
-            text-decoration: underline;
-            cursor: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value='/style/main.css' /> " />
 </head>
 <body>
 

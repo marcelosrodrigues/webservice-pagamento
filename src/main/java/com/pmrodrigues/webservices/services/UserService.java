@@ -44,7 +44,7 @@ public class UserService {
         if( pagador != null && password.equalsIgnoreCase(pagador.getPassword()) ) {
             return pagador;
         } else {
-            throw new Exception("Usuaário não encontrado ou senha inválida");
+            throw new Exception("Usuário não encontrado ou senha inválida");
         }
 
     }
