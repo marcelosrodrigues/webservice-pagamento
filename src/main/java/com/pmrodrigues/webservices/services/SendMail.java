@@ -50,11 +50,11 @@ public class SendMail {
     public void send() throws EmailException, IOException, MessagingException {
 
         MultiPartEmail email = new MultiPartEmail();
-        email.setHostName("smtp.gmail.com");
-        email.setSslSmtpPort("465");
-        email.setAuthentication("marsilvarodrigues@gmail.com", "powerslave");
-        email.setSSLOnConnect(true);
-        email.setStartTLSEnabled(true);
+        email.setHostName("mail.qualividabeneficios.com.br");
+        email.setSmtpPort(25);
+        email.setAuthentication("qualivida@qualividabeneficios.com.br", "quali123");
+        //email.setSSLOnConnect(true);
+        //email.setStartTLSEnabled(true);
         email.setFrom(this.from);
         email.setSubject(this.subject);
         email.setMsg(this.message);
