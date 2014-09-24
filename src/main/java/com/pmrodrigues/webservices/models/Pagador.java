@@ -86,4 +86,6 @@ public class Pagador implements Serializable{
     public String getPassword() {
         return password;
     }
+
+    public Long getId() { return id;}
 }

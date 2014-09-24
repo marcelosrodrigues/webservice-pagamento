@@ -1,6 +1,9 @@
 package com.pmrodrigues.webservices.models;
 
 import com.pmrodrigues.webservices.enums.Status;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.Days;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -61,6 +64,9 @@ public class OrdemPagamento implements Serializable {
 
     @Column
     private Date dataProcessamento;
+
+    @Column
+    private Long reemissao = 0L;
 
     public OrdemPagamento() {
     }
@@ -151,5 +157,23 @@ public class OrdemPagamento implements Serializable {
 
     public void setCedente(Cedente cedente) {
         this.cedente = cedente;
+    }
+
+    public Long getId() { return id; }
+
+    public void emitirSegundaVia() {
+        if(podeReemitir()) {
+            DateTime hoje = DateTime.now();
+            hoje = hoje.plusDays(2);
+            while (hoje.getDayOfWeek() == DateTimeConstants.SATURDAY || hoje.getDayOfWeek() == DateTimeConstants.SUNDAY) {
+                hoje = hoje.plusDays(1);
+            }
+            this.dataVencimento = hoje.toDate();
+            this.reemissao++;
+        }
+    }
+
+    public boolean podeReemitir() {
+        return reemissao < 2;
     }
 }

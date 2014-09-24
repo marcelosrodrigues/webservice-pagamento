@@ -3,6 +3,7 @@ package com.pmrodrigues.webservices.controllers;
 import br.com.caelum.vraptor.*;
 import com.pmrodrigues.webservices.models.Pagador;
 import com.pmrodrigues.webservices.services.UserService;
+import com.pmrodrigues.webservices.utilities.UserSession;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,10 +16,12 @@ public class LoginController {
     private final Result result;
 
     private static final Logger logger = Logger.getLogger(LoginController.class);
+    private final UserSession userSession;
 
-    public LoginController(final UserService service , final Result result ) {
+    public LoginController(final UserService service , final Result result , final UserSession userSession) {
         this.service = service;
         this.result = result;
+        this.userSession = userSession;
     }
 
     @Get
@@ -34,10 +37,12 @@ public class LoginController {
         try {
             Pagador pagador = service.autenticate(email,password);
             result.include(pagador);
-            result.forwardTo("index.jsp");
+            userSession.setPagador(pagador);
+            result.forwardTo(BoletosController.class).listar();
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
             result.include("message",e.getMessage());
+            result.forwardTo(LoginController.class).login();
         }
 
     }
