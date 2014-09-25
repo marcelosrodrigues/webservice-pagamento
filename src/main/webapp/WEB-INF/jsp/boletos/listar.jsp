@@ -57,6 +57,7 @@
                         <td>Documento</td>
                         <td>Vencimento</td>
                         <td>Valor</td>
+                        <td></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,6 +70,7 @@
                                     value="${boleto.dataVencimento}" pattern="dd-MM-yyyy"/></a></td>
                             <td><a href='<c:url value="/boleto/reemitir.do" />?id=${boleto.id}'><fmt:formatNumber
                                     value="${boleto.valorBoleto}" type="currency" minFractionDigits="2"/></a></td>
+                            <td><a href='<c:url value="/boleto/imprimir.do" />?id=${boleto.id}' target="_blank">Imprimir</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>

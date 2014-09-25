@@ -4,12 +4,15 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.interceptor.download.InputStreamDownload;
+import br.com.caelum.vraptor.view.Results;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
 import com.pmrodrigues.webservices.services.BoletoService;
 import com.pmrodrigues.webservices.services.PagamentoService;
 import com.pmrodrigues.webservices.utilities.UserSession;
 import org.apache.log4j.Logger;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -42,6 +45,15 @@ public class BoletosController {
     public void listar(String cpf) {
         List<OrdemPagamento> boletos = service.listAllBoletosByCPF(cpf);
         result.include("boletos",boletos);
+    }
+
+    @Get
+    @Path("/boleto/imprimir.do")
+    public InputStreamDownload imprimir(Long id){
+        OrdemPagamento boleto = service.getById(id);
+        InputStream arquivo = pagamentoService.gerarBoleto(boleto);
+        return new InputStreamDownload(arquivo,"application/pdf",String.format("boleto-%ty-%tm",boleto.getDataVencimento(),boleto.getDataVencimento()));
+
     }
 
     @Get

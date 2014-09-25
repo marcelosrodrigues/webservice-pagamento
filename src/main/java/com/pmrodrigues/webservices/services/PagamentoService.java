@@ -62,7 +62,7 @@ public class PagamentoService {
              .send();
     }
 
-    private InputStream gerarBoleto(OrdemPagamento ordemPagamento) {
+    public InputStream gerarBoleto(OrdemPagamento ordemPagamento) {
 
         Emissor emissor = criarEmissor(ordemPagamento);
         Sacado sacado = criarPagador(ordemPagamento);
@@ -126,4 +126,6 @@ public class PagamentoService {
                       .comNossoNumero(ordemPagamento.getNossoNumero().getNumero())
                       .comDigitoNossoNumero(ordemPagamento.getNossoNumero().getDigito());
     }
+
+
 }
