@@ -1,0 +1,61 @@
+.mask-page {
+    position: fixed;
+    background: url("/tools/sdm/imagens/mask-transparent.png");
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: none;
+}
+
+.loading-page {
+    background: none repeat scroll 0 0 #FFFFFF;
+    /*border: 3px solid #B9DD0C;*/
+    border-radius: 106px 106px 106px 106px;
+    left: 48%;
+    opacity: 0.4;
+    margin: 20% auto;
+    max-width: 80px;
+    min-height: 44px;
+    padding: 17px 18px 5px;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    z-index: 1001;
+    box-shadow: 0 1px 10px #333333;
+    display: none;
+}
+
+.btn.pull-right {
+    margin-left: 10px;
+}
+
+th.header .left {
+    text-align: left;
+    margin-left: 10px;
+}
+
+select {
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+}
+
+.tagsinput {
+    width: 99%;
+}
+
+.lightblue{
+    color: #3898c3;
+}
+
+input{
+    width: 100%;
+}
+
+input[type=checkbox]{
+    width: 20px !important;
+}

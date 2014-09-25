@@ -5,7 +5,8 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" href="<c:url value='/style/main.css' /> " />
+    <link rel="stylesheet" href="<c:url value='/style/application.css' /> "/>
+    <link rel="stylesheet" href="<c:url value='/style/sdm.css' /> "/>
 </head>
 <body>
 
