@@ -51,6 +51,7 @@ public class BoletosController {
     @Path("/boleto/imprimir.do")
     public InputStreamDownload imprimir(Long id){
         OrdemPagamento boleto = service.getById(id);
+        boleto.emitirSegundaVia();
         InputStream arquivo = pagamentoService.gerarBoleto(boleto);
         return new InputStreamDownload(arquivo,"application/pdf",String.format("boleto-%ty-%tm",boleto.getDataVencimento(),boleto.getDataVencimento()));
 
