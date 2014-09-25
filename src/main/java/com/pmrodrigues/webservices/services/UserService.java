@@ -2,12 +2,9 @@ package com.pmrodrigues.webservices.services;
 
 import com.pmrodrigues.webservices.models.Pagador;
 import com.pmrodrigues.webservices.repositories.PagadorRepository;
-import org.apache.commons.mail.EmailException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import java.io.IOException;
 
 /**
  * Created by Marceloo on 23/09/2014.
@@ -47,5 +44,9 @@ public class UserService {
             throw new Exception("Usuário não encontrado ou senha inválida");
         }
 
+    }
+
+    public Pagador getByCPF(String cpf) {
+        return repository.getPagadorByCPF(cpf);
     }
 }

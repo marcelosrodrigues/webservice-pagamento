@@ -1,10 +1,9 @@
 package com.pmrodrigues.webservices.services;
 
-import javax.mail.util.ByteArrayDataSource;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 
-import javax.mail.MessagingException;
+import org.apache.commons.mail.ByteArrayDataSource;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -47,7 +46,7 @@ public class SendMail {
         return this;
     }
 
-    public void send() throws EmailException, IOException, MessagingException {
+    public void send() throws EmailException, IOException {
 
         MultiPartEmail email = new MultiPartEmail();
         email.setHostName("mail.qualividabeneficios.com.br");

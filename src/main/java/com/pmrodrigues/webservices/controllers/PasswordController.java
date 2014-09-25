@@ -1,7 +1,9 @@
 package com.pmrodrigues.webservices.controllers;
 
 import br.com.caelum.vraptor.*;
+import com.pmrodrigues.webservices.models.Pagador;
 import com.pmrodrigues.webservices.services.UserService;
+import com.pmrodrigues.webservices.utilities.UserSession;
 import org.apache.log4j.Logger;
 
 /**
@@ -14,19 +16,21 @@ public class PasswordController {
     private final UserService service;
 
     private static final Logger logger = Logger.getLogger(PasswordController.class);
+    private final UserSession userSession;
 
-    public PasswordController(UserService service, Result result) {
+    public PasswordController(UserService service, Result result, UserSession userSession) {
         this.service = service;
         this.result = result;
+        this.userSession = userSession;
     }
 
     @Get
-    @Path("/reemitir.do")
+    @Path("/index.do")
     public void reemitir() {}
 
 
     @Post
-    @Path("/reemitir.do")
+    @Path("/index.do")
     public void reemitirSenha(final String cpf) {
 
         logger.info("reemitindo a senha do cpf " + cpf);
@@ -34,9 +38,17 @@ public class PasswordController {
         try {
             if( cpf != null && !"".equalsIgnoreCase(cpf) ){
 
-                service.reemitirSenha(cpf);
-                result.include("message","Sua senha foi enviada para o seu email de cadastro. Obrigado!");
-                result.forwardTo(LoginController.class).login();
+                Pagador pagador = service.getByCPF(cpf);
+
+                if( pagador != null ) {
+                    result.include(pagador);
+                    userSession.setPagador(pagador);
+                    result.forwardTo(BoletosController.class).listar();
+                } else {
+                    result.include("message","CPF não encontrado");
+                    result.forwardTo(PasswordController.class).reemitir();
+                }
+
 
             } else {
                 result.include("message","CPF é obrigatório");
