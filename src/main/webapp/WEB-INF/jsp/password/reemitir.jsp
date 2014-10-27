@@ -12,6 +12,8 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <link rel="stylesheet" href="<c:url value='/style/application.css' /> "/>
     <link rel="stylesheet" href="<c:url value='/style/sdm.css' /> "/>
+    <script type="text/javascript" src="<c:url value='/js/jquery.min.js' />" ></script>
+    <script type="text/javascript" src="<c:url value='/js/bootstrap.min.js' />" ></script>
 </head>
 <body>
 <div class="navbar navbar-top navbar-inverse">
@@ -68,5 +70,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="<c:url value='/js/jquery.color.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery.maskMoney.min.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery-maskinput.js' />" ></script>
+<script type="text/javascript" src="<c:url value='/js/jquery-ui.js' />" ></script>
+<script type="text/javascript" src="<c:url value='/js/jquery-ui-datepicker-pt.js' />" ></script>
+
+<script type="text/javascript" src="<c:url value='/js/ui.js' />" ></script>
 </body>
+
 </html>
