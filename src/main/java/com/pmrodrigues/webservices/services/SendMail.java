@@ -4,6 +4,9 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 
 import org.apache.commons.mail.ByteArrayDataSource;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -46,7 +49,7 @@ public class SendMail {
         return this;
     }
 
-    public void send() throws EmailException, IOException {
+    public void send() throws EmailException, IOException, AddressException {
 
         MultiPartEmail email = new MultiPartEmail();
         email.setHostName("mail.qualividabeneficios.com.br");

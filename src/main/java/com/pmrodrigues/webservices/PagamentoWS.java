@@ -50,7 +50,7 @@ public class PagamentoWS implements Serializable {
                                @WebParam(name = "CEPSacado") String cepSacado, @WebParam(name = "CidadeSacado") String cidadeSacado,
                                @WebParam(name = "EstadoSacado") String estadoSacado, @WebParam(name = "EmailSacado")String emailSacado,
                                @WebParam(name = "ValorBoleto") String valorBoleto, @WebParam(name = "Carteira") String carteira,
-                               @WebParam(name = "Instrucoes") String instrucoes, @WebParam(name = "DataProcessamento") String dataProcessamento ) throws Exception {
+                               @WebParam(name = "Instrucoes") String instrucoes, @WebParam(name = "DataProcessamento") String dataProcessamento) throws Exception {
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",new Locale("pt","BR"));

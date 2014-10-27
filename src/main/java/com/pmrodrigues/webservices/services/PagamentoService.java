@@ -1,17 +1,17 @@
 package com.pmrodrigues.webservices.services;
 
-import br.com.caelum.stella.boleto.*;
+
+import br.com.caelum.stella.boleto.Boleto;
+import br.com.caelum.stella.boleto.Datas;
+import br.com.caelum.stella.boleto.Emissor;
+import br.com.caelum.stella.boleto.Sacado;
 import br.com.caelum.stella.boleto.bancos.Itau;
 import br.com.caelum.stella.boleto.transformer.GeradorDeBoleto;
 import com.pmrodrigues.webservices.enums.Status;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
 import com.pmrodrigues.webservices.repositories.OrdemPagamentoRepository;
-import com.pmrodrigues.webservices.repositories.impl.OrdemPagamentoRepositoryImpl;
 import org.apache.commons.mail.EmailException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
