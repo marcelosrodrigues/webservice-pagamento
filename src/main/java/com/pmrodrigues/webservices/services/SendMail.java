@@ -55,19 +55,21 @@ public class SendMail {
         email.setHostName("mail.qualividabeneficios.com.br");
         email.setSmtpPort(25);
         email.setAuthentication("qualivida@qualividabeneficios.com.br", "quali123");
+        //email.setHostName("smtp.gmail.com");
+        //email.setSmtpPort(465);
+        //email.setAuthentication("marsilvarodrigues@gmail.com","aceshigh");
         //email.setSSLOnConnect(true);
         //email.setStartTLSEnabled(true);
         email.setFrom(this.from);
         email.setSubject(this.subject);
         email.setMsg(this.message);
-        email.setDebug(true);
+        email.setDebug(false);
         email.addTo(this.to);
 
         if (this.boleto != null){
             email.attach(new ByteArrayDataSource(this.boleto, "application/pdf"), "boleto.pdf", "Boleto para pagamento");
         }
 
-        email.setDebug(true);
         email.send();
     }
 

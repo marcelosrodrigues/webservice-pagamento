@@ -75,6 +75,7 @@ public class PagamentoService {
             existed.setValorBoleto(ordemPagamento.getValorBoleto());
             existed.setHistorico(ordemPagamento.getHistorico());
             existed.setPagador(ordemPagamento.getPagador());
+            existed.permitirReemissao();
             repository.set(existed);
             return existed;
         } else {

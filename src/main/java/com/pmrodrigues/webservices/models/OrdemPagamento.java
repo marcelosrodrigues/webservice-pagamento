@@ -216,4 +216,8 @@ public class OrdemPagamento implements Serializable {
     public void setValorBoleto(BigDecimal valorBoleto) {
         this.valorBoleto = valorBoleto;
     }
+
+    public void permitirReemissao() {
+        this.reemissao = 0L;
+    }
 }
