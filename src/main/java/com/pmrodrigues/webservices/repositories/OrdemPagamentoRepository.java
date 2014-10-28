@@ -10,4 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface OrdemPagamentoRepository extends Repository<OrdemPagamento>{
     @Transactional(propagation = Propagation.REQUIRED)
     void add(OrdemPagamento ordemPagamento);
+
+    OrdemPagamento findByNumeroDocumento(String numeroDoDocumento);
 }

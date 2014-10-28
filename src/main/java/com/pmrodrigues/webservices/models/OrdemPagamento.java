@@ -176,4 +176,44 @@ public class OrdemPagamento implements Serializable {
     public boolean podeReemitir() {
         return reemissao < 2;
     }
+
+    public void setCarteira(Integer carteira) {
+        this.carteira = carteira;
+    }
+
+    public void setAgencia(Agencia agencia) {
+        this.agencia = agencia;
+    }
+
+    public void setContaCorrente(ContaCorrente contaCorrente) {
+        this.contaCorrente = contaCorrente;
+    }
+
+    public void setDataEmissao(Date dataEmissao) {
+        this.dataEmissao = dataEmissao;
+    }
+
+    public void setDataProcessamento(Date dataProcessamento) {
+        this.dataProcessamento = dataProcessamento;
+    }
+
+    public void setDataVencimento(Date dataVencimento) {
+        this.dataVencimento = dataVencimento;
+    }
+
+    public void setInstrucoes(String instrucoes) {
+        this.instrucoes = instrucoes;
+    }
+
+    public void setNossoNumero(NossoNumero nossoNumero) {
+        this.nossoNumero = nossoNumero;
+    }
+
+    public void setNumeroDoDocumento(String numeroDoDocumento) {
+        this.numeroDoDocumento = numeroDoDocumento;
+    }
+
+    public void setValorBoleto(BigDecimal valorBoleto) {
+        this.valorBoleto = valorBoleto;
+    }
 }

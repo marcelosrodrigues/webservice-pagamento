@@ -12,9 +12,12 @@ import com.pmrodrigues.webservices.models.OrdemPagamento;
 import com.pmrodrigues.webservices.repositories.OrdemPagamentoRepository;
 import org.apache.commons.mail.EmailException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
+import java.beans.Transient;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,26 +34,53 @@ public class PagamentoService {
     @Resource(name = "OrdemPagamentoRepository")
     private OrdemPagamentoRepository repository;
 
-    public OrdemPagamento enviarBoleto(OrdemPagamento ordemPagamento)  {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public OrdemPagamento enviarBoleto(final OrdemPagamento ordemPagamento)  {
+
+        OrdemPagamento ordem = prepareOrdemServico(ordemPagamento);
         try {
-            InputStream boleto = gerarBoleto(ordemPagamento);
-            enviar(boleto,ordemPagamento);
-            ordemPagamento.setStatus(Status.SUCESSO);
-            ordemPagamento.setHistorico("Boleto enviado com sucesso");
+            InputStream boleto = gerarBoleto(ordem);
+            enviar(boleto,ordem);
+            ordem.setStatus(Status.SUCESSO);
+            ordem.setHistorico("Boleto enviado com sucesso");
         } catch (IOException e) {
-            ordemPagamento.setStatus(Status.ERRO);
-            ordemPagamento.setHistorico(e.getMessage());
+            ordem.setStatus(Status.ERRO);
+            ordem.setHistorico(e.getMessage());
         } catch (EmailException e) {
-            ordemPagamento.setStatus(Status.ERRO);
-            ordemPagamento.setHistorico(e.getMessage());
+            ordem.setStatus(Status.ERRO);
+            ordem.setHistorico(e.getMessage());
         } catch (MessagingException e) {
-            ordemPagamento.setStatus(Status.ERRO);
-            ordemPagamento.setHistorico(e.getMessage());
+            ordem.setStatus(Status.ERRO);
+            ordem.setHistorico(e.getMessage());
         }
 
-        repository.add(ordemPagamento);
+        return ordem;
+    }
 
-        return ordemPagamento;
+    public OrdemPagamento prepareOrdemServico(OrdemPagamento ordemPagamento) {
+        OrdemPagamento existed = repository.findByNumeroDocumento(ordemPagamento.getNumeroDoDocumento());
+
+        if( existed != null ) {
+            existed.setAgencia(ordemPagamento.getAgencia());
+            existed.setCedente(ordemPagamento.getCedente());
+            existed.setCarteira(ordemPagamento.getCarteira());
+            existed.setContaCorrente(ordemPagamento.getContaCorrente());
+            existed.setDataEmissao(ordemPagamento.getDataEmissao());
+            existed.setDataProcessamento(ordemPagamento.getDataProcessamento());
+            existed.setDataVencimento(ordemPagamento.getDataVencimento());
+            existed.setInstrucoes(ordemPagamento.getInstrucoes());
+            existed.setNossoNumero(ordemPagamento.getNossoNumero());
+            existed.setNumeroDoDocumento(ordemPagamento.getNumeroDoDocumento());
+            existed.setStatus(ordemPagamento.getStatus());
+            existed.setValorBoleto(ordemPagamento.getValorBoleto());
+            existed.setHistorico(ordemPagamento.getHistorico());
+            existed.setPagador(ordemPagamento.getPagador());
+            repository.set(existed);
+            return existed;
+        } else {
+            repository.add(ordemPagamento);
+            return ordemPagamento;
+        }
     }
 
     private void enviar(InputStream boleto, OrdemPagamento ordemPagamento) throws IOException, EmailException, MessagingException {
