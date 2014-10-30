@@ -57,6 +57,7 @@ public class PagamentoService {
         return ordem;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public OrdemPagamento prepareOrdemServico(OrdemPagamento ordemPagamento) {
         OrdemPagamento existed = repository.findByNumeroDocumento(ordemPagamento.getNumeroDoDocumento());
 
