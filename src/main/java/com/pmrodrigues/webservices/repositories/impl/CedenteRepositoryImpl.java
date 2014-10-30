@@ -16,6 +16,7 @@ public class CedenteRepositoryImpl extends AbstractRepository<Cedente> implement
         return (Cedente) this.getSession()
                    .createCriteria(Cedente.class)
                    .add(Restrictions.eq("nome",nome))
+                   .setMaxResults(1)
                    .uniqueResult();
 
     }
