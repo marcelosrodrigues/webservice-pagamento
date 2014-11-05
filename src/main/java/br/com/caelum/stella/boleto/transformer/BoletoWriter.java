@@ -20,7 +20,9 @@ public interface BoletoWriter {
 	 */
 	InputStream toInputStream();
 
-	/**
+    void writeSmall(float x, float y, String text);
+
+    /**
 	 * Cria uma nova pagina no documento de saida.
 	 * 
 	 * @return <code>true</code> se uma nova pagina foi criada

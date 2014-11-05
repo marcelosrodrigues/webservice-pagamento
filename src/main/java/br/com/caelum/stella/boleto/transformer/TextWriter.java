@@ -42,4 +42,5 @@ public interface TextWriter {
 	 */
 	void writeImage(float x, float y, BufferedImage image, float width, float height) throws IOException;
 
+    void writeSmall(float x, float y, String text);
 }

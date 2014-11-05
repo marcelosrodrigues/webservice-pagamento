@@ -85,7 +85,12 @@ public class PNGBoletoWriter implements BoletoWriter, TextWriter {
 		return stream;
 	}
 
-	@Override
+    @Override
+    public void writeSmall(float x, float y, String text) {
+
+    }
+
+    @Override
 	public void write(final float x, final float y, final String text) {
 		checkIfDocIsClosed();
 		graphics.setFont(fonteSimples);

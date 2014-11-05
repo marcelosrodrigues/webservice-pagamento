@@ -99,7 +99,12 @@ public class HTMLBoletoWriter implements BoletoWriter {
 		return new ByteArrayInputStream(writer.toString().getBytes());
 	}
 
-	/**
+    @Override
+    public void writeSmall(float x, float y, String text) {
+
+    }
+
+    /**
 	 * Apenas para ajudar com algumas coisas que ficam meio complicadas se
 	 * colocadas diretas no template
 	 * 
