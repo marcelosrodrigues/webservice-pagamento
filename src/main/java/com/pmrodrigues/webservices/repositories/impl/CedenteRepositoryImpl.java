@@ -4,6 +4,8 @@ import com.pmrodrigues.webservices.models.Cedente;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by Marceloo on 23/09/2014.
  */
@@ -13,11 +15,16 @@ public class CedenteRepositoryImpl extends AbstractRepository<Cedente> implement
     @Override
     public Cedente findCedenteByName(final String nome) {
 
-        return (Cedente) this.getSession()
+        List<Cedente> cedentes =  this.getSession()
                    .createCriteria(Cedente.class)
                    .add(Restrictions.eq("nome",nome))
-                   .setMaxResults(1)
-                   .uniqueResult();
+                   .list();
+
+        if( cedentes != null ) {
+            return cedentes.get(0);
+        } else {
+            return null;
+        }
 
     }
 }
