@@ -41,10 +41,10 @@ public class OrdemPagamento implements Serializable {
     @Embedded
     private NossoNumero nossoNumero;
 
-    @ManyToOne(optional = false, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Cedente cedente;
 
-    @ManyToOne(optional = false, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pagador pagador;
 
     @Column

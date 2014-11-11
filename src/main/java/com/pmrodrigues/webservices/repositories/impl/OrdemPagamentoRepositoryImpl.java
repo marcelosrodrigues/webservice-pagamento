@@ -55,7 +55,12 @@ public class OrdemPagamentoRepositoryImpl extends AbstractRepository<OrdemPagame
 
         final Cedente cedente = cedenteRepository.findCedenteByName(ordemPagamento.getCedente().getNome());
         if( cedente != null ) {
+            System.out.println("cedente " + ordemPagamento.getCedente().getNome() + " encontrado");
+            cedenteRepository.set(ordemPagamento.getCedente());
             ordemPagamento.setCedente(cedente);
+        }else {
+            System.out.println("cedente " + ordemPagamento.getCedente().getNome() + " não encontrado");
+            cedenteRepository.add(ordemPagamento.getCedente());
         }
 
     }
@@ -64,10 +69,15 @@ public class OrdemPagamentoRepositoryImpl extends AbstractRepository<OrdemPagame
 
         final Pagador existed = pagadorRepository.getPagadorByCPF(ordemPagamento.getPagador().getCPF());
         if( existed != null ) {
+            System.out.println("pagador " + ordemPagamento.getPagador().getNome() + " encontrado com o cpf " + ordemPagamento.getPagador().getCPF());
             existed.setEmail(ordemPagamento.getPagador().getEmail());
             existed.setEndereco(ordemPagamento.getPagador().getEndereco());
             existed.setNome(ordemPagamento.getPagador().getNome());
             ordemPagamento.setPagador(existed);
+            pagadorRepository.set(existed);
+        } else {
+            System.out.println("pagador " + ordemPagamento.getPagador().getNome() + " não encontrado com o cpf " + ordemPagamento.getPagador().getCPF());
+            pagadorRepository.add(ordemPagamento.getPagador());
         }
     }
 }
