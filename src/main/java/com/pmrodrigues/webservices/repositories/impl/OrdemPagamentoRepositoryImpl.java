@@ -55,8 +55,7 @@ public class OrdemPagamentoRepositoryImpl extends AbstractRepository<OrdemPagame
 
         final Cedente cedente = cedenteRepository.findCedenteByName(ordemPagamento.getCedente().getNome());
         if( cedente != null ) {
-            System.out.println("cedente " + ordemPagamento.getCedente().getNome() + " encontrado");
-            cedenteRepository.set(ordemPagamento.getCedente());
+            System.out.println("cedente " + cedente.getNome() + " encontrado");
             ordemPagamento.setCedente(cedente);
         }else {
             System.out.println("cedente " + ordemPagamento.getCedente().getNome() + " não encontrado");
