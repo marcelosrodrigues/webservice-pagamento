@@ -1,6 +1,7 @@
 package com.pmrodrigues.webservices.models;
 
 import com.pmrodrigues.webservices.enums.Status;
+import org.hibernate.annotations.Cascade;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
@@ -41,10 +42,10 @@ public class OrdemPagamento implements Serializable {
     @Embedded
     private NossoNumero nossoNumero;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Cedente cedente;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false,cascade = CascadeType.ALL,  fetch = FetchType.EAGER)
     private Pagador pagador;
 
     @Column

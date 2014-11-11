@@ -8,8 +8,12 @@ import br.com.caelum.stella.boleto.Sacado;
 import br.com.caelum.stella.boleto.bancos.Itau;
 import br.com.caelum.stella.boleto.transformer.GeradorDeBoleto;
 import com.pmrodrigues.webservices.enums.Status;
+import com.pmrodrigues.webservices.models.Cedente;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
+import com.pmrodrigues.webservices.models.Pagador;
+import com.pmrodrigues.webservices.repositories.CedenteRepository;
 import com.pmrodrigues.webservices.repositories.OrdemPagamentoRepository;
+import com.pmrodrigues.webservices.repositories.PagadorRepository;
 import org.apache.commons.mail.EmailException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,10 +38,17 @@ public class PagamentoService {
     @Resource(name = "OrdemPagamentoRepository")
     private OrdemPagamentoRepository repository;
 
+    @Resource(name = "PagadorRepository")
+    private PagadorRepository pagadorRepository;
+
+    @Resource( name = "CedenteRepository")
+    private CedenteRepository cedenteRepository;
+
     @Transactional(propagation = Propagation.REQUIRED)
     public OrdemPagamento enviarBoleto(final OrdemPagamento ordemPagamento)  {
 
         OrdemPagamento ordem = prepareOrdemServico(ordemPagamento);
+
         try {
             InputStream boleto = gerarBoleto(ordem);
             enviar(boleto,ordem);
@@ -59,11 +70,28 @@ public class PagamentoService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public OrdemPagamento prepareOrdemServico(OrdemPagamento ordemPagamento) {
+
+        Cedente cedente = cedenteRepository.findCedenteByName(ordemPagamento.getCedente().getNome());
+        Pagador pagador = pagadorRepository.getPagadorByCPF(ordemPagamento.getPagador().getCPF());
+
+
+        if( cedente != null ) {
+            ordemPagamento.setCedente(cedente);
+        }
+
+        if( pagador != null ){
+            pagador.setEmail(ordemPagamento.getPagador().getEmail());
+            pagador.setEndereco(ordemPagamento.getPagador().getEndereco());
+            pagador.setNome(ordemPagamento.getPagador().getNome());
+            ordemPagamento.setPagador(pagador);
+
+        }
+
         OrdemPagamento existed = repository.findByNumeroDocumento(ordemPagamento.getNumeroDoDocumento());
 
         if( existed != null ) {
             existed.setAgencia(ordemPagamento.getAgencia());
-            existed.setCedente(ordemPagamento.getCedente());
+            existed.setCedente(cedente);
             existed.setCarteira(ordemPagamento.getCarteira());
             existed.setContaCorrente(ordemPagamento.getContaCorrente());
             existed.setDataEmissao(ordemPagamento.getDataEmissao());

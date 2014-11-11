@@ -19,28 +19,6 @@ import javax.annotation.Resource;
 @Repository("OrdemPagamentoRepository")
 public class OrdemPagamentoRepositoryImpl extends AbstractRepository<OrdemPagamento> implements com.pmrodrigues.webservices.repositories.OrdemPagamentoRepository {
 
-    @Resource(name = "PagadorRepository")
-    private PagadorRepository pagadorRepository;
-
-    @Resource( name = "CedenteRepository")
-    private CedenteRepository cedenteRepository;
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void add(final OrdemPagamento ordemPagamento) {
-
-        updatePagador(ordemPagamento);
-        updateCedente(ordemPagamento);
-        super.add(ordemPagamento);
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void set(final OrdemPagamento ordemPagamento ){
-        updatePagador(ordemPagamento);
-        updateCedente(ordemPagamento);
-        super.set(ordemPagamento);
-    }
 
     @Override
     public OrdemPagamento findByNumeroDocumento(String numeroDoDocumento) {
@@ -51,34 +29,6 @@ public class OrdemPagamentoRepositoryImpl extends AbstractRepository<OrdemPagame
                          .uniqueResult();
     }
 
-    private void updateCedente( final OrdemPagamento ordemPagamento ) {
-
-        final Cedente cedente = cedenteRepository.findCedenteByName(ordemPagamento.getCedente().getNome());
-        if( cedente != null ) {
-            System.out.println("cedente " + cedente.getNome() + " encontrado");
-            ordemPagamento.setCedente(cedente);
-        }else {
-            System.out.println("cedente " + ordemPagamento.getCedente().getNome() + " não encontrado");
-            cedenteRepository.add(ordemPagamento.getCedente());
-        }
-
-    }
-
-    private void updatePagador(final OrdemPagamento ordemPagamento) {
-
-        final Pagador existed = pagadorRepository.getPagadorByCPF(ordemPagamento.getPagador().getCPF());
-        if( existed != null ) {
-            System.out.println("pagador " + ordemPagamento.getPagador().getNome() + " encontrado com o cpf " + ordemPagamento.getPagador().getCPF());
-            existed.setEmail(ordemPagamento.getPagador().getEmail());
-            existed.setEndereco(ordemPagamento.getPagador().getEndereco());
-            existed.setNome(ordemPagamento.getPagador().getNome());
-            ordemPagamento.setPagador(existed);
-            pagadorRepository.set(existed);
-        } else {
-            System.out.println("pagador " + ordemPagamento.getPagador().getNome() + " não encontrado com o cpf " + ordemPagamento.getPagador().getCPF());
-            pagadorRepository.add(ordemPagamento.getPagador());
-        }
-    }
 }
 
 
