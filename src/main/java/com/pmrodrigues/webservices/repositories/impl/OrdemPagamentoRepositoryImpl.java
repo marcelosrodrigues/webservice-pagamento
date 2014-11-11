@@ -35,6 +35,14 @@ public class OrdemPagamentoRepositoryImpl extends AbstractRepository<OrdemPagame
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void set(final OrdemPagamento ordemPagamento ){
+        updatePagador(ordemPagamento);
+        updateCedente(ordemPagamento);
+        super.set(ordemPagamento);
+    }
+
+    @Override
     public OrdemPagamento findByNumeroDocumento(String numeroDoDocumento) {
         return (OrdemPagamento) this.getSession().createCriteria(OrdemPagamento.class,"o")
                          .createAlias("o.pagador","p",JoinType.INNER_JOIN)
