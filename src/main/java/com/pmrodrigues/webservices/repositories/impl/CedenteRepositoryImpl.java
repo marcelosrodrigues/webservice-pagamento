@@ -15,16 +15,12 @@ public class CedenteRepositoryImpl extends AbstractRepository<Cedente> implement
     @Override
     public Cedente findCedenteByName(final String nome) {
 
-        List<Cedente> cedentes =  this.getSession()
+        return (Cedente) this.getSession()
                    .createCriteria(Cedente.class)
                    .add(Restrictions.eq("nome",nome))
-                   .list();
-
-        if( cedentes != null ) {
-            return cedentes.get(0);
-        } else {
-            return null;
-        }
+                   .setMaxResults(1)
+                   .setFirstResult(1)
+                   .uniqueResult();
 
     }
 }
