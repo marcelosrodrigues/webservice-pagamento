@@ -24,13 +24,13 @@ public class PasswordController {
         this.userSession = userSession;
     }
 
-    @Get
-    @Path("/index.do")
+   // @Get
+   // @Path("/index.do")
     public void reemitir() {}
 
 
-    @Post
-    @Path("/index.do")
+   // @Post
+   // @Path("/index.do")
     public void reemitirSenha(final String cpf) {
 
         logger.info("reemitindo a senha do cpf " + cpf);
