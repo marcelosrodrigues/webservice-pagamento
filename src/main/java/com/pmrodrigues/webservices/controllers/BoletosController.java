@@ -34,8 +34,8 @@ public class BoletosController {
         this.pagamentoService = pagamentoService;
     }
 
-    //@Get
-    //@Path("/boletos.do")
+    @Get
+    @Path("/boletos.do")
     public void listar() {
         List<OrdemPagamento> boletos = service.listAllBoletosByPagador(userSession.getPagador());
         result.include("boletos",boletos);
@@ -47,8 +47,8 @@ public class BoletosController {
         result.include("boletos",boletos);
     }
 
-    //@Get
-    //@Path("/boleto/imprimir.do")
+    @Get
+    @Path("/boleto/imprimir.do")
     public InputStreamDownload imprimir(Long id){
         OrdemPagamento boleto = service.getById(id);
 
@@ -58,8 +58,8 @@ public class BoletosController {
 
     }
 
-    //@Get
-    //@Path("/boleto/reemitir.do")
+    @Get
+    @Path("/boleto/reemitir.do")
     public void reemitir(Long id) {
 
         OrdemPagamento boleto = service.getById(id);

@@ -1,4 +1,4 @@
-package com.pmrodrigues.webservices.controllers;
+﻿package com.pmrodrigues.webservices.controllers;
 
 import br.com.caelum.vraptor.*;
 import com.pmrodrigues.webservices.models.Pagador;
@@ -24,14 +24,14 @@ public class LoginController {
         this.userSession = userSession;
     }
 
-    //@Get
-    //@Path("/index.do")
+    @Get
+    @Path("/index.do")
     public void login() {
         logger.debug("abrindo a tela de login");
     }
 
-    //@Post
-    //@Path("/index.do")
+    @Post
+    @Path("/index.do")
     public void doLogin(final String email , final String password ){
 
         try {
