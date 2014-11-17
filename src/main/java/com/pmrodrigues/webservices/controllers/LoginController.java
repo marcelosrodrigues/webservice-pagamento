@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 /**
  * Created by Marceloo on 23/09/2014.
  */
+
 @Resource
 public class LoginController {
 
