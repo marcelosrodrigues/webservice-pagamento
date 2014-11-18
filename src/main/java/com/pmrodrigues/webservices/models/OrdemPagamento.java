@@ -19,7 +19,6 @@ import java.util.Date;
 @Table(name = "ordempagamento")
 public class OrdemPagamento implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -69,10 +68,36 @@ public class OrdemPagamento implements Serializable {
     @Column
     private Long reemissao = 0L;
 
-    public OrdemPagamento() {
+    @Column
+    private String contrato;
+
+    @Column
+    private String operadora;
+
+    @Column
+    private String parcela;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataCriacao;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataAlteracao;
+
+    @PrePersist
+    public void onInsert() {
+        dataCriacao = DateTime.now().toDate();
+        dataAlteracao = DateTime.now().toDate();
     }
 
-    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Date dataProcessamento, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira, String instrucoes) {
+    @PreUpdate
+    public void onUpdate() {
+        dataAlteracao = DateTime.now().toDate();
+    }
+
+
+    public OrdemPagamento(){}
+
+    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Date dataProcessamento, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira, String instrucoes, String contrato, String operadora, String parcela) {
         this();
         this.dataProcessamento = dataProcessamento;
         this.dataVencimento = dataVencimento;
@@ -86,6 +111,10 @@ public class OrdemPagamento implements Serializable {
         this.valorBoleto = valorBoleto;
         this.carteira = carteira;
         this.instrucoes = instrucoes;
+        this.contrato = contrato;
+        this.operadora = operadora;
+        this.parcela = parcela;
+
     }
 
     public BigDecimal getValorBoleto() {
