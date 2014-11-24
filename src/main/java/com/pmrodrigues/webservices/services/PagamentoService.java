@@ -5,6 +5,7 @@ import br.com.caelum.stella.boleto.Boleto;
 import br.com.caelum.stella.boleto.Datas;
 import br.com.caelum.stella.boleto.Emissor;
 import br.com.caelum.stella.boleto.Sacado;
+import br.com.caelum.stella.boleto.bancos.Bradesco;
 import br.com.caelum.stella.boleto.bancos.Itau;
 import br.com.caelum.stella.boleto.transformer.GeradorDeBoleto;
 import com.pmrodrigues.webservices.enums.Status;
@@ -74,7 +75,6 @@ public class PagamentoService {
         Cedente cedente = cedenteRepository.findCedenteByName(ordemPagamento.getCedente().getNome());
         Pagador pagador = pagadorRepository.getPagadorByCPF(ordemPagamento.getPagador().getCPF());
 
-
         if( cedente != null ) {
             ordemPagamento.setCedente(cedente);
         }
@@ -84,7 +84,6 @@ public class PagamentoService {
             pagador.setEndereco(ordemPagamento.getPagador().getEndereco());
             pagador.setNome(ordemPagamento.getPagador().getNome());
             ordemPagamento.setPagador(pagador);
-
         }
 
         OrdemPagamento existed = repository.findByNumeroDocumento(ordemPagamento.getNumeroDoDocumento());
@@ -129,7 +128,13 @@ public class PagamentoService {
         Datas dataVencimento = criarDatasBoleto(ordemPagamento);
 
         Boleto boleto = criarBoleto(ordemPagamento, emissor, sacado, dataVencimento);
-        boleto.comBanco(new Itau());
+        if( "1".equalsIgnoreCase(ordemPagamento.getBanco()) ){
+            boleto.comBanco(new Itau());
+        } else if( "2".equalsIgnoreCase(ordemPagamento.getBanco()) ){
+            boleto.comBanco(new Bradesco());
+        } else {
+            boleto.comBanco(new Itau());
+        }
 
         String[] instrucoes = ordemPagamento.getInstrucoes().split("#");
         boleto.comInstrucoes(instrucoes);

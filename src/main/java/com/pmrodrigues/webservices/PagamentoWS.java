@@ -51,7 +51,8 @@ public class PagamentoWS implements Serializable {
                                @WebParam(name = "EstadoSacado") String estadoSacado, @WebParam(name = "EmailSacado")String emailSacado,
                                @WebParam(name = "ValorBoleto") String valorBoleto, @WebParam(name = "Carteira") String carteira,
                                @WebParam(name = "Instrucoes") String instrucoes, @WebParam(name = "DataProcessamento") String dataProcessamento,
-                               @WebParam(name = "Contrato" ) String contrato , @WebParam(name="Operadora") String operadora , @WebParam(name = "Parcela") String parcela) throws Exception {
+                               @WebParam(name = "Contrato" ) String contrato , @WebParam(name="Operadora") String operadora ,
+                               @WebParam(name = "Parcela") String parcela, @WebParam(name = "Banco") String banco) throws Exception {
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",new Locale("pt","BR"));
@@ -63,7 +64,7 @@ public class PagamentoWS implements Serializable {
                                                             new ContaCorrente(Long.parseLong(numeroContaCorrente),digitoContaCorrente), numeroBoleto,
                                                             new NossoNumero(Long.parseLong(nossoNumero),digitoNossoNumero),new Cedente(nomeEmissor),
                                                             new Pagador(sacadoCPF,nomeSacado ,new Endereco(enderecoSacado,bairroSacado,cepSacado,cidadeSacado,estadoSacado),emailSacado),
-                                                            new BigDecimal(decimalFormat.parse(valorBoleto).doubleValue()), Integer.parseInt(carteira), instrucoes , contrato, operadora , parcela );
+                                                            new BigDecimal(decimalFormat.parse(valorBoleto).doubleValue()), Integer.parseInt(carteira), instrucoes , contrato, operadora , parcela , banco);
         ServletContext context =
                 (ServletContext) this.context.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
         PagamentoService service = (PagamentoService) WebApplicationContextUtils.getWebApplicationContext(context).getBean("pagamentoService");

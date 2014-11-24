@@ -77,6 +77,9 @@ public class OrdemPagamento implements Serializable {
     @Column
     private String parcela;
 
+    @Column
+    private String banco;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
 
@@ -97,7 +100,7 @@ public class OrdemPagamento implements Serializable {
 
     public OrdemPagamento(){}
 
-    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Date dataProcessamento, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira, String instrucoes, String contrato, String operadora, String parcela) {
+    public OrdemPagamento(Date dataVencimento, Date dataEmissao, Date dataProcessamento, Agencia agencia, ContaCorrente contaCorrente, String numeroDoDocumento, NossoNumero nossoNumero, Cedente cedente, Pagador pagador, BigDecimal valorBoleto, Integer carteira, String instrucoes, String contrato, String operadora, String parcela, String banco) {
         this();
         this.dataProcessamento = dataProcessamento;
         this.dataVencimento = dataVencimento;
@@ -114,6 +117,7 @@ public class OrdemPagamento implements Serializable {
         this.contrato = contrato;
         this.operadora = operadora;
         this.parcela = parcela;
+        this.banco = banco;
 
     }
 
@@ -249,5 +253,13 @@ public class OrdemPagamento implements Serializable {
 
     public void permitirReemissao() {
         this.reemissao = 0L;
+    }
+
+    public String getBanco() {
+        return banco;
+    }
+
+    public void setBanco(String banco) {
+        this.banco = banco;
     }
 }
