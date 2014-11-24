@@ -262,4 +262,28 @@ public class OrdemPagamento implements Serializable {
     public void setBanco(String banco) {
         this.banco = banco;
     }
+
+    public String getParcela() {
+        return parcela;
+    }
+
+    public void setParcela(String parcela) {
+        this.parcela = parcela;
+    }
+
+    public String getContrato() {
+        return contrato;
+    }
+
+    public void setContrato(String contrato) {
+        this.contrato = contrato;
+    }
+
+    public String getOperadora() {
+        return operadora;
+    }
+
+    public void setOperadora(String operadora) {
+        this.operadora = operadora;
+    }
 }

@@ -103,6 +103,10 @@ public class PagamentoService {
             existed.setValorBoleto(ordemPagamento.getValorBoleto());
             existed.setHistorico(ordemPagamento.getHistorico());
             existed.setPagador(ordemPagamento.getPagador());
+            existed.setBanco(ordemPagamento.getBanco());
+            existed.setParcela(ordemPagamento.getParcela());
+            existed.setContrato(ordemPagamento.getContrato());
+            existed.setOperadora(ordemPagamento.getOperadora());
             existed.permitirReemissao();
             repository.set(existed);
             return existed;
