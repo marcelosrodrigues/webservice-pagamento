@@ -1,5 +1,6 @@
 package com.pmrodrigues.webservices.services;
 
+import br.com.caelum.stella.boleto.Boleto;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
 import com.pmrodrigues.webservices.models.Pagador;
 import com.pmrodrigues.webservices.repositories.BoletoRepository;
@@ -27,5 +28,13 @@ public class BoletoService {
 
     public List<OrdemPagamento> listAllBoletosByCPF(final String c) {
         return repository.listAllBoletosByCPF(c);
+    }
+
+    public List<OrdemPagamento> listAll() {
+        return repository.listAll();
+    }
+
+    public List<OrdemPagamento> listByIds(Long[] id) {
+        return repository.listByIds(id);
     }
 }

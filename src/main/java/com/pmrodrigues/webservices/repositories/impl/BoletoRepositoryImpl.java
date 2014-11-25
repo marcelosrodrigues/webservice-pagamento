@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,5 +31,23 @@ public class BoletoRepositoryImpl extends AbstractRepository<OrdemPagamento> imp
                                 .add(Restrictions.eq("p.cpf",cpf))
                                 .add(Restrictions.lt("o.reemissao",2L))
                                 .list();
+    }
+
+    @Override
+    public List<OrdemPagamento> listAll() {
+        return this.getSession().createCriteria(OrdemPagamento.class,"o")
+                .createCriteria("o.pagador","p", JoinType.INNER_JOIN)
+                .addOrder(Order.desc("o.dataVencimento"))
+                .list();
+    }
+
+    @Override
+    public List<OrdemPagamento> listByIds(Long[] id) {
+        return this.getSession().createCriteria(OrdemPagamento.class, "o")
+                .createCriteria("o.pagador", "p", JoinType.INNER_JOIN)
+                .add(Restrictions.in("o.id", Arrays.asList(id)))
+                .addOrder(Order.desc("o.dataVencimento"))
+                .addOrder(Order.asc("p.nome"))
+                .list();
     }
 }

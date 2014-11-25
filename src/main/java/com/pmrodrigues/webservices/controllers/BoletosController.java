@@ -1,9 +1,7 @@
 package com.pmrodrigues.webservices.controllers;
 
-import br.com.caelum.vraptor.Get;
-import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Resource;
-import br.com.caelum.vraptor.Result;
+import br.com.caelum.stella.boleto.Boleto;
+import br.com.caelum.vraptor.*;
 import br.com.caelum.vraptor.interceptor.download.InputStreamDownload;
 import br.com.caelum.vraptor.view.Results;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
@@ -41,10 +39,30 @@ public class BoletosController {
         result.include("boletos",boletos);
     }
 
-
     public void listar(String cpf) {
         List<OrdemPagamento> boletos = service.listAllBoletosByCPF(cpf);
         result.include("boletos",boletos);
+    }
+
+    @Get
+    @Path("/boletos/pesquisar.do")
+    public void pesquisar() {
+        List<OrdemPagamento> boletos = service.listAll();
+        result.include("boletos",boletos);
+    }
+
+    @Post
+    @Path("/boletos/pesquisar.do")
+    public InputStreamDownload imprimir(Long[] id) {
+        if( id != null && id.length > 0 ) {
+            List<OrdemPagamento> boletos = service.listByIds(id);
+            InputStream arquivo = pagamentoService.gerarBoletos(boletos);
+            return new InputStreamDownload(arquivo, "application/pdf", "boletos.pdf");
+        } else {
+            result.include("message","Selecione pelo menos um boleto");
+            result.forwardTo(BoletosController.class).pesquisar();
+            return null;
+        }
     }
 
     @Get

@@ -50,7 +50,7 @@ public class Pagador implements Serializable{
 
     public Pagador() {}
 
-    public String getCPF() {
+    public String getCpf() {
         return cpf;
     }
 

@@ -22,11 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import java.beans.Transient;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Marceloo on 19/09/2014.
@@ -73,7 +74,7 @@ public class PagamentoService {
     public OrdemPagamento prepareOrdemServico(OrdemPagamento ordemPagamento) {
 
         Cedente cedente = cedenteRepository.findCedenteByName(ordemPagamento.getCedente().getNome());
-        Pagador pagador = pagadorRepository.getPagadorByCPF(ordemPagamento.getPagador().getCPF());
+        Pagador pagador = pagadorRepository.getPagadorByCPF(ordemPagamento.getPagador().getCpf());
 
         if( cedente != null ) {
             ordemPagamento.setCedente(cedente);
@@ -127,6 +128,14 @@ public class PagamentoService {
 
     public InputStream gerarBoleto(OrdemPagamento ordemPagamento) {
 
+        Boleto boleto = getBoleto(ordemPagamento);
+
+        GeradorDeBoleto gerador = new GeradorDeBoleto(boleto);
+        return new ByteArrayInputStream(gerador.geraPDF());
+
+    }
+
+    public Boleto getBoleto(OrdemPagamento ordemPagamento) {
         Emissor emissor = criarEmissor(ordemPagamento);
         Sacado sacado = criarPagador(ordemPagamento);
         Datas dataVencimento = criarDatasBoleto(ordemPagamento);
@@ -142,10 +151,18 @@ public class PagamentoService {
 
         String[] instrucoes = ordemPagamento.getInstrucoes().split("#");
         boleto.comInstrucoes(instrucoes);
+        return boleto;
+    }
 
-        GeradorDeBoleto gerador = new GeradorDeBoleto(boleto);
+    public InputStream gerarBoletos(List<OrdemPagamento> ordemPagamentos) {
+
+        List<Boleto> boletos = new ArrayList<>();
+        for(OrdemPagamento ordem : ordemPagamentos ){
+            boletos.add(getBoleto(ordem));
+        }
+
+        GeradorDeBoleto gerador = new GeradorDeBoleto(boletos.toArray(new Boleto[]{}));
         return new ByteArrayInputStream(gerador.geraPDF());
-
     }
 
     private Boleto criarBoleto(OrdemPagamento ordemPagamento, Emissor emissor, Sacado sacado, Datas dataVencimento) {
@@ -175,7 +192,7 @@ public class PagamentoService {
 
     private Sacado criarPagador(OrdemPagamento ordemPagamento) {
         return Sacado.novoSacado()
-                     .comCpf(ordemPagamento.getPagador().getCPF())
+                     .comCpf(ordemPagamento.getPagador().getCpf())
                      .comNome(ordemPagamento.getPagador().getNome())
                      .comEndereco(ordemPagamento.getPagador().getEndereco().getLogradouro())
                      .comBairro(ordemPagamento.getPagador().getEndereco().getBairro())
@@ -195,6 +212,5 @@ public class PagamentoService {
                       .comNossoNumero(ordemPagamento.getNossoNumero().getNumero())
                       .comDigitoNossoNumero(ordemPagamento.getNossoNumero().getDigito());
     }
-
 
 }
