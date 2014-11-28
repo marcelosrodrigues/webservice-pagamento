@@ -75,6 +75,9 @@ public abstract class AbstractRepository<E> implements Repository<E> {
     }
 
 
+    protected org.hibernate.StatelessSession getStatelessSession() {
+        return this.sessionFactory.openStatelessSession();
+    }
 
     protected Session getSession() {
         Session session = this.sessionFactory.getCurrentSession();

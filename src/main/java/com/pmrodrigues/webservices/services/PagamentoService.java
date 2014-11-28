@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -118,12 +119,16 @@ public class PagamentoService {
     }
 
     private void enviar(InputStream boleto, OrdemPagamento ordemPagamento) throws IOException, EmailException, MessagingException {
-        email.from("qualivida@qualividabeneficios.com.br")
-             .to(ordemPagamento.getPagador().getEmail())
-             .subject("Segue anexo seu boleto para pagamento")
-             .message("Segue anexo seu boleto para pagamento")
-             .attachament(boleto)
-             .send();
+
+
+        if( ordemPagamento.podeEnviar() ) {
+            email.from("qualivida@qualividabeneficios.com.br")
+                    .to(ordemPagamento.getPagador().getEmail())
+                    .subject("Segue anexo seu boleto para pagamento")
+                    .message("Segue anexo seu boleto para pagamento")
+                    .attachament(boleto)
+                    .send();
+        }
     }
 
     public InputStream gerarBoleto(OrdemPagamento ordemPagamento) {
@@ -157,12 +162,20 @@ public class PagamentoService {
     public InputStream gerarBoletos(List<OrdemPagamento> ordemPagamentos) {
 
         List<Boleto> boletos = new ArrayList<>();
-        for(OrdemPagamento ordem : ordemPagamentos ){
-            boletos.add(getBoleto(ordem));
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        for(final OrdemPagamento ordem : ordemPagamentos ){
+            GeradorDeBoleto gerador = new GeradorDeBoleto(getBoleto(ordem));
+            try {
+                output.write(gerador.geraPDF());
+                System.gc();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        GeradorDeBoleto gerador = new GeradorDeBoleto(boletos.toArray(new Boleto[]{}));
-        return new ByteArrayInputStream(gerador.geraPDF());
+        //GeradorDeBoleto gerador = new GeradorDeBoleto(boletos.toArray(new Boleto[]{}));
+        //return new ByteArrayInputStream(gerador.geraPDF());
+        return new ByteArrayInputStream(output.toByteArray());
     }
 
     private Boleto criarBoleto(OrdemPagamento ordemPagamento, Emissor emissor, Sacado sacado, Datas dataVencimento) {

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<c:url value='/style/application.css' /> "/>
     <link rel="stylesheet" href="<c:url value='/style/sdm.css' /> "/>
     <link rel="stylesheet" href="<c:url value='/style/main.css' /> "/>
+    <link rel="stylesheet" href="<c:url value='/style/jquery-ui-1.10.4.custom.min.css' /> "/>
     <script type="text/javascript" src="<c:url value='/js/jquery.min.js' />" ></script>
     <script type="text/javascript" src="<c:url value='/js/bootstrap.min.js' />" ></script>
 </head>
@@ -53,8 +54,38 @@
                     </div>
                 </c:if>
                 <form action="<c:url value='/boletos/pesquisar.do' />" method="post">
-                    <button type="submit" class="btn btn-blue btn-block" style="width: 100px;"><i class="icon-off icon-white"></i>&nbsp;&nbsp;Imprimir</button>
-                    <br />
+                    <div style="margin-top: 20px; margin-bottom: 20px;">
+                        <div style="float: left;margin-right: 10px;">
+                            <p style="margin: 0 0 0 0px;">&nbsp;</p>
+                            <p style="margin: 0 0 0 0px;">Banco</p>
+                            <select name="banco" style="width: 100px;">
+                                <option></option>
+                                <c:forEach items="${bancos}" var="banco">
+                                    <option value="${banco}">${banco}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div style="float: left;margin-right: 10px;">
+                            <p style="margin: 0 0 0 0px;">Data de Vencimento</p>
+                            <p style="margin: 0 0 0 0px;">De:</p>
+                            <input type="text" name="inicial" id="inicial" />
+                        </div>
+                        <div style="float: left;margin-right: 10px;">
+                            <p style="margin: 0 0 0 0px;">&nbsp;</p>
+                            <p style="margin: 0 0 0 0px;">Até:</p>
+                            <input type="text" name="fim" id="fim" />
+                        </div>
+                        <div style="float: left;margin-right: 10px;">
+                            <p style="margin: 0 0 0 0px;">&nbsp;</p>
+                            <p style="margin: 0 0 0 0px;">&nbsp;</p>
+                            <button type="submit" name="pesquisar" class="btn btn-blue btn-block" style="width: 100px;" value="imprimir"><i class="icon-off icon-white"></i>&nbsp;&nbsp;Imprimir</button>
+                        </div>
+                        <div style="float: left;margin-right: 10px;">
+                            <p style="margin: 0 0 0 0px;">&nbsp;</p>
+                            <p style="margin: 0 0 0 0px;">&nbsp;</p>
+                            <button type="submit" name="pesquisar" class="btn btn-blue btn-block" style="width: 100px;" value="pesquisar"><i class="icon-off icon-white"></i>&nbsp;&nbsp;Pesquisar</button>
+                        </div>
+                    </div>
                     <table>
                         <thead>
                         <tr>

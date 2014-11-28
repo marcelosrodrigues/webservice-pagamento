@@ -19,6 +19,8 @@ import java.util.Date;
 @Table(name = "ordempagamento")
 public class OrdemPagamento implements Serializable {
 
+    private static final String BRADESCO = "2";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -285,5 +287,9 @@ public class OrdemPagamento implements Serializable {
 
     public void setOperadora(String operadora) {
         this.operadora = operadora;
+    }
+
+    public boolean podeEnviar() {
+        return BRADESCO.equalsIgnoreCase(this.banco);
     }
 }

@@ -11,7 +11,11 @@ import com.pmrodrigues.webservices.utilities.UserSession;
 import org.apache.log4j.Logger;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Marceloo on 23/09/2014.
@@ -24,6 +28,7 @@ public class BoletosController {
     private final Result result;
     private final UserSession userSession;
     private final PagamentoService pagamentoService;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",new Locale("pt","BR"));
 
     public BoletosController(final BoletoService service, final Result result, final UserSession userSession, final PagamentoService pagamentoService){
         this.service = service;
@@ -47,19 +52,49 @@ public class BoletosController {
     @Get
     @Path("/boletos/pesquisar.do")
     public void pesquisar() {
-        List<OrdemPagamento> boletos = service.listAll();
-        result.include("boletos",boletos);
+        if( result.included().get("bancos") == null ) {
+            result.include("bancos", new String[]{"ITAU", "BRADESCO"});
+        }
+        if( result.included().get("boletos") == null ) {
+            List<OrdemPagamento> boletos = service.listAll();
+            result.include("boletos",boletos);
+        }
+
     }
 
     @Post
     @Path("/boletos/pesquisar.do")
-    public InputStreamDownload imprimir(Long[] id) {
-        if( id != null && id.length > 0 ) {
-            List<OrdemPagamento> boletos = service.listByIds(id);
-            InputStream arquivo = pagamentoService.gerarBoletos(boletos);
-            return new InputStreamDownload(arquivo, "application/pdf", "boletos.pdf");
+    public InputStreamDownload imprimir(Long[] id , String pesquisar , String banco , String inicial , String  fim ) {
+
+        if( "imprimir".equalsIgnoreCase(pesquisar) ) {
+            if (id != null && id.length > 0) {
+                List<OrdemPagamento> boletos = service.listByIds(id);
+                InputStream arquivo = pagamentoService.gerarBoletos(boletos);
+                return new InputStreamDownload(arquivo, "application/pdf", "boletos.pdf");
+            } else {
+                result.include("message", "Selecione pelo menos um boleto");
+                result.forwardTo(BoletosController.class).pesquisar();
+                return null;
+            }
         } else {
-            result.include("message","Selecione pelo menos um boleto");
+
+            Date de = null;
+            Date ate = null;
+
+            try {
+                if( inicial != null && !"".equalsIgnoreCase(inicial) ) {
+                    de = dateFormat.parse(inicial);
+                }
+                if( fim != null && !"".equalsIgnoreCase(fim) ) {
+                    ate = dateFormat.parse(fim);
+                }
+                List<OrdemPagamento> boletos = service.findBy(banco,de,ate);
+                result.include("boletos",boletos);
+            } catch (ParseException e) {
+                result.include("message", "Data inválida");
+            }
+
+            result.include("bancos",new String[]{"ITAU","BRADESCO"});
             result.forwardTo(BoletosController.class).pesquisar();
             return null;
         }

@@ -7,6 +7,7 @@ import com.pmrodrigues.webservices.repositories.BoletoRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,5 +37,9 @@ public class BoletoService {
 
     public List<OrdemPagamento> listByIds(Long[] id) {
         return repository.listByIds(id);
+    }
+
+    public List<OrdemPagamento> findBy(final String banco, final Date de, final Date ate) {
+        return repository.findById(banco,de,ate);
     }
 }

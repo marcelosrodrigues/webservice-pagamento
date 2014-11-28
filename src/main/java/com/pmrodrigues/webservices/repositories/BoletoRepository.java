@@ -4,6 +4,7 @@ import br.com.caelum.stella.boleto.Boleto;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
 import com.pmrodrigues.webservices.models.Pagador;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,4 +18,6 @@ public interface BoletoRepository extends Repository<OrdemPagamento> {
     List<OrdemPagamento> listAll();
 
     List<OrdemPagamento> listByIds(Long[] id);
+
+    List<OrdemPagamento> findById(String banco, Date de, Date ate);
 }
