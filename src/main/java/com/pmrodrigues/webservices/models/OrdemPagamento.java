@@ -290,6 +290,6 @@ public class OrdemPagamento implements Serializable {
     }
 
     public boolean podeEnviar() {
-        return BRADESCO.equalsIgnoreCase(this.banco);
+        return !BRADESCO.equalsIgnoreCase(this.banco);
     }
 }
