@@ -16,12 +16,12 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://ec2-54-225-239-184.compute-1.amazonaws.com:5432/dho9kqqt96jo9" />
-        <property name="username" value="encjikhknuweoe" />
-        <property name="password" value="0fDcd-YO5RHDyBhQ3FaSO9sfmV" />
+        <property name="url" value="jdbc:postgres://lgdjyrlpyiwxsw:K33mfK8wAkOldlsaxgYECb31YX@ec2-50-19-236-35.compute-1.amazonaws.com:5432/d74od1c22a8c98" />
+        <property name="username" value="lgdjyrlpyiwxsw" />
+        <property name="password" value="K33mfK8wAkOldlsaxgYECb31YX" />
     </bean>
 
-    <!--
+	<!--
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
@@ -29,7 +29,7 @@
         <property name="username" value="postgres" />
         <property name="password" value="postgres" />
     </bean>
-     -->
+	-->
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

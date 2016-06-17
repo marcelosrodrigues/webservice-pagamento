@@ -1,14 +1,15 @@
 package com.pmrodrigues.webservices.services;
 
+import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
-
-import org.apache.commons.mail.ByteArrayDataSource;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static java.util.Arrays.asList;
 
 /**
  * Created by Marceloo on 20/09/2014.
@@ -20,6 +21,7 @@ public class SendMail {
     private String subject;
     private String message;
     private InputStream boleto;
+    private String cc;
 
     public SendMail() {
     }
@@ -52,18 +54,19 @@ public class SendMail {
     public void send() throws EmailException, IOException, AddressException {
 
         MultiPartEmail email = new MultiPartEmail();
-        email.setHostName("mail.qualividabeneficios.com.br");
-        email.setSmtpPort(25);
-        email.setAuthentication("qualivida@qualividabeneficios.com.br", "quali123");
-        //email.setHostName("smtp.gmail.com");
-        //email.setSmtpPort(465);
-        //email.setAuthentication("marsilvarodrigues@gmail.com","aceshigh");
-        //email.setSSLOnConnect(true);
-        //email.setStartTLSEnabled(true);
+       // email.setHostName("mail.qualividabeneficios.com.br");
+       // email.setSmtpPort(25);
+       // email.setAuthentication("qualivida@qualividabeneficios.com.br", "quali123");
+        email.setHostName("smtp.gmail.com");
+        email.setSmtpPort(465);
+        email.setAuthentication("marsilvarodrigues@gmail.com","aceshigh");
+        email.setSSLOnConnect(true);
+        email.setStartTLSEnabled(true);
         email.setFrom(this.from);
+        email.setCc(asList(new InternetAddress(cc)));
         email.setSubject(this.subject);
         email.setMsg(this.message);
-        email.setDebug(false);
+        email.setDebug(true);
         email.addTo(this.to);
 
         if (this.boleto != null){
@@ -73,4 +76,8 @@ public class SendMail {
         email.send();
     }
 
+    public SendMail cc(String cc) {
+        this.cc = cc;
+        return this;
+    }
 }

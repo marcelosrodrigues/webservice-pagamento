@@ -12,15 +12,15 @@
 	<!-- PRODUÇÃO -->
 
 
-
-    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+    <!--
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://ec2-54-225-239-184.compute-1.amazonaws.com:5432/dho9kqqt96jo9" />
         <property name="username" value="encjikhknuweoe" />
         <property name="password" value="0fDcd-YO5RHDyBhQ3FaSO9sfmV" />
-    </bean> -->
-
+    </bean>
+    -->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
@@ -30,14 +30,15 @@
         <property name="password" value="postgres" />
     </bean>
 
+
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
-				<prop key="hibernate.show_sql">false</prop>
-				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
 				<prop key="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
@@ -51,7 +52,6 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManager"
-		mode="proxy" proxy-target-class="false" />
+	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="false" />
 
 </beans>

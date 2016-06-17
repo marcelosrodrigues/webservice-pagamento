@@ -26,9 +26,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Marceloo on 19/09/2014.
@@ -122,8 +124,9 @@ public class PagamentoService {
 
 
         if( ordemPagamento.podeEnviar() ) {
-            email.from("qualivida@qualividabeneficios.com.br")
+            email.from("marsilvarodrigues@gmail.com")
                     .to(ordemPagamento.getPagador().getEmail())
+                    .cc("romeubf@gmail.com")
                     .subject("Segue anexo seu boleto para pagamento")
                     .message("Segue anexo seu boleto para pagamento")
                     .attachament(boleto)
@@ -159,23 +162,38 @@ public class PagamentoService {
         return boleto;
     }
 
-    public InputStream gerarBoletos(List<OrdemPagamento> ordemPagamentos) {
+    public void gerarBoletos(final List<OrdemPagamento> ordemPagamentos) {
 
-        List<Boleto> boletos = new ArrayList<>();
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        for(final OrdemPagamento ordem : ordemPagamentos ){
-            GeradorDeBoleto gerador = new GeradorDeBoleto(getBoleto(ordem));
-            try {
-                output.write(gerador.geraPDF());
-                System.gc();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                for (final OrdemPagamento ordem : ordemPagamentos) {
+                    GeradorDeBoleto gerador = new GeradorDeBoleto(getBoleto(ordem));
+                    output.write(gerador.geraPDF());
+                    System.gc();
+                }
+                //GeradorDeBoleto gerador = new GeradorDeBoleto(boletos.toArray(new Boleto[]{}));
+                //return new ByteArrayInputStream(gerador.geraPDF());
+                //return new ByteArrayInputStream(output.toByteArray());
+
+                email.from("marsilvarodrigues@gmail.com")
+                        //.to("qualivida@qualividabeneficios.com.br")
+                        .to("marsilvarodrigues@gmail.com")
+                        .cc("romeubf@gmail.com")
+                        .subject("Segue os boletos gerados")
+                        .message("Seguem anexos os boletos para impressão")
+                        .attachament(new ByteArrayInputStream(output.toByteArray()))
+                        .send();
+                return null;
             }
-        }
 
-        //GeradorDeBoleto gerador = new GeradorDeBoleto(boletos.toArray(new Boleto[]{}));
-        //return new ByteArrayInputStream(gerador.geraPDF());
-        return new ByteArrayInputStream(output.toByteArray());
+        });
+
+
     }
 
     private Boleto criarBoleto(OrdemPagamento ordemPagamento, Emissor emissor, Sacado sacado, Datas dataVencimento) {

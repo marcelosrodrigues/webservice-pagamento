@@ -1,9 +1,7 @@
 package com.pmrodrigues.webservices.controllers;
 
-import br.com.caelum.stella.boleto.Boleto;
 import br.com.caelum.vraptor.*;
 import br.com.caelum.vraptor.interceptor.download.InputStreamDownload;
-import br.com.caelum.vraptor.view.Results;
 import com.pmrodrigues.webservices.models.OrdemPagamento;
 import com.pmrodrigues.webservices.services.BoletoService;
 import com.pmrodrigues.webservices.services.PagamentoService;
@@ -64,17 +62,20 @@ public class BoletosController {
 
     @Post
     @Path("/boletos/pesquisar.do")
-    public InputStreamDownload imprimir(Long[] id , String pesquisar , String banco , String inicial , String  fim ) {
+    public void imprimir(Long[] id , String pesquisar , String banco , String inicial , String  fim ) {
 
         if( "imprimir".equalsIgnoreCase(pesquisar) ) {
             if (id != null && id.length > 0) {
                 List<OrdemPagamento> boletos = service.listByIds(id);
-                InputStream arquivo = pagamentoService.gerarBoletos(boletos);
-                return new InputStreamDownload(arquivo, "application/pdf", "boletos.pdf");
+                //InputStream arquivo =
+                pagamentoService.gerarBoletos(boletos);
+                result.include("message", "Boletos gerados e enviados para o email qualivida@qualividabeneficios.com.br");
+                result.forwardTo(BoletosController.class).pesquisar();
+                //return new InputStreamDownload(arquivo, "application/pdf", "boletos.pdf");
             } else {
                 result.include("message", "Selecione pelo menos um boleto");
                 result.forwardTo(BoletosController.class).pesquisar();
-                return null;
+                //return null;
             }
         } else {
 
@@ -96,7 +97,7 @@ public class BoletosController {
 
             result.include("bancos",new String[]{"ITAU","BRADESCO"});
             result.forwardTo(BoletosController.class).pesquisar();
-            return null;
+           // return null;
         }
     }
 
