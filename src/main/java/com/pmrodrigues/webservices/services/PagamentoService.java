@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -68,6 +69,9 @@ public class PagamentoService {
         } catch (MessagingException e) {
             ordem.setStatus(Status.ERRO);
             ordem.setHistorico(e.getMessage());
+        } catch (Exception e){
+            ordem.setStatus(Status.ERRO);
+            ordem.setHistorico(Arrays.toString(e.getStackTrace()));
         }
 
         return ordem;
